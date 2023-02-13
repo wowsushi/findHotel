@@ -1,0 +1,77 @@
+{
+  "name": "front-end",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/front-end",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "webpackConfig": ".webpack/react-dev.config.js",
+      "options": {
+        "root": "apps/front-end",
+        "outputPath": "dist/apps/front-end"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/front-end"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "front-end:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "front-end:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "front-end:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "front-end:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/front-end/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/front-end/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["docker build -f apps/back-end/Dockerfile -t betty713/front-end ."]
+      }
+    }
+  },
+  "tags": []
+}

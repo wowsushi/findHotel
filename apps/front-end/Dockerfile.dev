@@ -1,0 +1,13 @@
+FROM docker.io/node:lts-alpine
+
+WORKDIR /app
+
+RUN addgroup --system front-end && \
+          adduser --system -G front-end front-end
+
+COPY . .
+
+RUN chown -R front-end:front-end .
+RUN npm install --omit=dev
+
+CMD [ "npx", "nx", "run", "back-end:serve" ]
