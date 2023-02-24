@@ -25,16 +25,19 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "front-end:build",
-        "dev": true
+        "dev": true,
+        "hmr": true
       },
       "configurations": {
         "development": {
           "buildTarget": "front-end:build:development",
+          "hostname": "0.0.0.0",
           "dev": true
         },
         "production": {
           "buildTarget": "front-end:build:production",
-          "dev": false
+          "dev": false,
+          "hmr": false
         }
       }
     },

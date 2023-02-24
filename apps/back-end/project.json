@@ -13,8 +13,7 @@
         "outputPath": "dist/apps/back-end",
         "main": "apps/back-end/src/main.ts",
         "tsConfig": "apps/back-end/tsconfig.app.json",
-        "assets": ["apps/back-end/src/assets"],
-        "webpackConfig": ".webpack/nest-dev.config.js"
+        "webpackConfig": ".webpack/react-dev.config.js"
       },
       "configurations": {
         "production": {

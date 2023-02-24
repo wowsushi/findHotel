@@ -11,4 +11,4 @@ COPY package.json package-lock.json ./
 RUN chown -R front-end:front-end .
 RUN npm install --omit=dev
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start" ]

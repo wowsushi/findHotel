@@ -3,6 +3,7 @@ version: '3'
 services:
   # React App
   front-end:
+    restart: always
     extends:
       file: docker-compose.base.yml
       service: nx-app-base
@@ -20,5 +21,18 @@ services:
       - 4310:3333 # API Entry port
       - 4311:4311 # Server Debugging port
 
+  # db
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: findhotel
+    ports:
+      - "3306:3306"
+
 volumes:
   mono-node-modules: null
+  todo-mysql-data:
+
