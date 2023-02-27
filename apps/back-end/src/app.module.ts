@@ -1,14 +1,16 @@
-import { Module, ValidationPipe, MiddlewareConsumer } from '@nestjs/common';
-import { APP_PIPE } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './apis/users/users.module';
-import { ReportsModule } from './apis/reports/reports.module';
-import cookieSession from 'cookie-session';
-import { dbConfig } from '../ormconfig';
-import { HotelsModule } from './apis/hotels/hotels.module';
+import { Module, ValidationPipe, MiddlewareConsumer } from '@nestjs/common'
+import { APP_PIPE } from '@nestjs/core'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { UsersModule } from './apis/users/users.module'
+import { ReportsModule } from './apis/reports/reports.module'
+import cookieSession from 'cookie-session'
+import { dbConfig } from '../ormconfig'
+import { HotelsModule } from './apis/hotels/hotels.module'
+import { RoomsModule } from './apis/rooms/rooms.module'
+import { OrdersModule } from './apis/orders/orders.module'
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { HotelsModule } from './apis/hotels/hotels.module';
     UsersModule,
     ReportsModule,
     HotelsModule,
+    RoomsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
@@ -42,6 +46,6 @@ export class AppModule {
           keys: [this.configService.get('COOKIE_KEY')],
         })
       )
-      .forRoutes('*');
+      .forRoutes('*')
   }
 }

@@ -1,7 +1,11 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "simple-import-sort", "prettier"],
+  "extends": [
+    "plugin:react/recommended",
+    "prettier"
+  ],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -18,7 +22,8 @@
               }
             ]
           }
-        ]
+        ],
+        "prettier/prettier": ["warn", {"semi": false}]
       }
     },
     {
@@ -36,7 +41,8 @@
       "env": {
         "jest": true
       },
-      "rules": {}
+      "rules": {
+      }
     }
   ]
 }

@@ -1,55 +1,51 @@
 import {
-    AfterInsert,
-    AfterRemove,
-    AfterUpdate,
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    OneToMany,
-    ManyToOne,
-  } from 'typeorm';
-import { Hotel } from '../hotels/hotel.entity';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm'
+import { Hotel } from '../hotels/hotel.entity'
+import { Order } from '../orders/order.entity'
+export enum RoomType {
+  Single,
+  Twin,
+  Double,
+  Quadruple,
+}
 
-  interface Facilities {
-    type: number,
-    name: string
-  }
-  @Entity()
-  export class Room {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column()
-    type: string;
-  
-    @Column()
-    availableDate: Date;
+@Entity()
+export class Room {
+  @PrimaryGeneratedColumn()
+  id: number
 
-    @Column()
-    defaultPrice: number;
-    
-    @Column()
-    discountPrice: number;
-    
-    @Column()
-    hasBreakfast: boolean;
+  @Column()
+  type: number
 
-    @Column()
-    checkInDate: Date;
+  @Column()
+  name: string
 
-    @Column()
-    checkOutDate: Date;
+  @Column()
+  defaultPrice: number
 
-    @Column('simple-json')
-    facilities: Facilities;
+  @Column()
+  discountPrice: number
 
-    @Column()
-    people: number;
+  @Column('simple-array')
+  facilities: number[]
 
-    @Column()
-    price: number;
+  @Column()
+  people: number
 
-    @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
-    hotel: Hotel
-  }
-  
+  @Column('simple-array')
+  pictures: string[]
+
+  @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
+  hotel: Hotel
+
+  @ManyToOne(() => Order, (order) => order.room, {
+    cascade: true,
+  })
+  @JoinColumn()
+  orders: Order[]
+}

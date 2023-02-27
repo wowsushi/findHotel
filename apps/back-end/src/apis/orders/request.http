@@ -1,0 +1,13 @@
+POST http://localhost:3333/api/orders
+content-type: application/json
+
+{
+  "checkInDate": "2023-03-01T14:57:21.141Z",
+  "checkOutDate": "2023-03-02T14:57:21.141Z",
+  "roomId": 8,
+  "note": "測試單",
+  "people": 2
+}
+
+### get orders by user
+GET http://localhost:3333/api/orders

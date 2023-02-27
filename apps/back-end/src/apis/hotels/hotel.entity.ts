@@ -1,41 +1,39 @@
-import {
-    AfterInsert,
-    AfterRemove,
-    AfterUpdate,
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    OneToMany,
-} from 'typeorm';
-import { Room } from '../rooms/room.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Room } from '../rooms/room.entity'
 
 export interface Address {
-    lat: number,
-    lng: number,
-    fullAddress: string
+  lat: number
+  lng: number
+  fullAddress: string
 }
 
 @Entity()
 export class Hotel {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number
 
-    @Column({
-        unique: true
-    })
-    phone: string;
+  @Column({
+    unique: true,
+  })
+  phone: string
 
-    @Column()
-    address: string;
+  @Column()
+  address: string
 
-    @Column()
-    name: string;
+  @Column()
+  name: string
 
-    @Column("simple-array")
-    pictures: string[]
+  @Column()
+  checkInTime: string
 
-    @OneToMany(() => Room, (room) => room.hotel)
-    rooms: string;
+  @Column()
+  checkOutTime: string
 
+  @Column('simple-array')
+  pictures: string[]
 
+  @OneToMany(() => Room, (room) => room.hotel, {
+    cascade: true,
+  })
+  rooms: string
 }

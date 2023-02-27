@@ -1,17 +1,21 @@
-import { ArrayContains, IsArray, IsEmail, IsJSON, IsString } from 'class-validator';
-import type { Address } from '../hotel.entity';
+import { IsArray, IsString } from 'class-validator'
 
 export class CreateHotelDto {
-    @IsString()
-    phone: string;
+  @IsString()
+  phone: string
 
-    @IsString()
-    address: string;
+  @IsString()
+  address: string
 
-    @IsString()
-    name: string;
+  @IsString()
+  name: string
 
-    @IsArray()
-    pictures: string[]
+  @IsArray()
+  pictures: string[]
 
+  @IsString()
+  checkInTime: string
+
+  @IsString()
+  checkOutTime: string
 }
