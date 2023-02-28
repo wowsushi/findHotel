@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Query, Req } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, Req } from '@nestjs/common'
 import { CreateHotelDto } from './dtos/create-hotel.dto'
 import { FindHotelsDto } from './dtos/find-hotels.dto'
 import { HotelsService } from './hotels.service'
@@ -14,8 +14,7 @@ export class HotelsController {
   }
 
   @Get()
-  async getHotels(@Query() query: FindHotelsDto, @Req() req) {
-    console.log(query)
+  async getHotels(@Query() query: FindHotelsDto) {
     const hotels = await this.hotelsService.findAvailableHotels(query)
     return hotels
   }
@@ -25,6 +24,13 @@ export class HotelsController {
     const rooms = await this.hotelsService.findRooms(+hotelId)
 
     return rooms
+  }
+
+  @Get(':id')
+  async findHotel(@Param('id') id: string) {
+    const hotel = await this.hotelsService.findHotel(+id)
+
+    return hotel
   }
 
   @Post(':id')

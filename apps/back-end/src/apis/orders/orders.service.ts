@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Room } from '../rooms/room.entity'
@@ -10,12 +10,24 @@ import { Order, OrderStatus } from './order.entity'
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepo: Repository<Order>,
-    @InjectRepository(Room) private roomRepo: Repository<Room>,
-    @InjectRepository(User) private userRepo: Repository<User>
+    @InjectRepository(Room) private roomRepo: Repository<Room>
   ) {}
 
   async create(body: CreateOrderDto, user: User) {
     const { roomId, checkInDate, checkOutDate } = body
+
+    const existingOrder = await this.orderRepo
+      .createQueryBuilder('order')
+      .where('roomId = :roomId', { roomId })
+      .andWhere(
+        ':checkInDate < order.checkOutDate AND :checkOutDate > order.checkInDate',
+        { checkInDate, checkOutDate }
+      )
+      .getExists()
+
+    if (existingOrder) {
+      throw new BadRequestException('Room already reserved')
+    }
     const order = this.orderRepo.create(body)
     const room = await this.roomRepo.findOne({ where: { id: roomId } })
     const ONE_DAY = 60 * 60 * 24 * 1000
@@ -25,17 +37,15 @@ export class OrdersService {
         ONE_DAY
     )
     order.price = room.discountPrice * reservedDate
-    order.expiredAt = new Date(
-      new Date().getTime() + EXPIRED_TIMER
-    ).toISOString()
-    order.status = OrderStatus.Completed
+    order.expiredAt = new Date(new Date().getTime() + EXPIRED_TIMER)
+    order.status = OrderStatus.Pending
     order.user = user
     order.room = room
 
     return this.orderRepo.save(order)
   }
 
-  async find(body: CreateOrderDto, user: User) {
+  async find(user: User) {
     const orders = await this.orderRepo
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.room', 'room')

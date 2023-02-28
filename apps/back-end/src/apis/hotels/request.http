@@ -17,5 +17,8 @@ content-type: application/json
 ### find rooms by hotel
 GET http://localhost:3333/api/hotels/findRooms?hotelId=2
 
-### findhotle
+### find available hotle
 GET http://localhost:3333/api/hotels?checkInDate=2023-03-01T14:57:21.141Z&checkOutDate=2023-03-02T14:57:21.141Z&people=2
+
+### find hotel details
+GET http://localhost:3333/api/hotels/1

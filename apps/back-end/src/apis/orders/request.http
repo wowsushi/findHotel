@@ -2,11 +2,16 @@ POST http://localhost:3333/api/orders
 content-type: application/json
 
 {
-  "checkInDate": "2023-03-01T14:57:21.141Z",
-  "checkOutDate": "2023-03-02T14:57:21.141Z",
+  "checkInDate": "2023-03-03T14:57:21.141Z",
+  "checkOutDate": "2023-03-04T14:57:21.141Z",
   "roomId": 8,
   "note": "測試單",
-  "people": 2
+  "people": 2,
+  "consumer": {
+    "firstName": "Park",
+    "lastName": "Peter",
+    "phone": "0988888888"
+  }
 }
 
 ### get orders by user

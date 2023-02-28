@@ -61,4 +61,13 @@ export class HotelsService {
 
     return hotel.rooms
   }
+
+  async findHotel(id: number) {
+    const hotel = await this.hotelRepo.findOne({
+      where: { id },
+      relations: ['rooms'],
+    })
+
+    return hotel
+  }
 }

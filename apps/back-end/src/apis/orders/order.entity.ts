@@ -14,7 +14,7 @@ export class Order {
   id: number
 
   @Column()
-  expiredAt: string
+  expiredAt: Date
 
   @Column()
   checkInDate: Date
@@ -37,6 +37,13 @@ export class Order {
 
   @Column()
   people: number
+
+  @Column('simple-json')
+  consumer: {
+    firstName: string
+    lastName: string
+    phone: string
+  }
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User
