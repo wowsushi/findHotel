@@ -11,7 +11,8 @@
       "webpackConfig": ".webpack/react-dev.config.js",
       "options": {
         "root": "apps/front-end",
-        "outputPath": "dist/apps/front-end"
+        "outputPath": "dist/apps/front-end",
+        "postcssConfig": "apps/front-end/postcss.config.js"
       },
       "configurations": {
         "development": {

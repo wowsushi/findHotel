@@ -3,7 +3,7 @@
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx", "simple-import-sort", "prettier"],
   "extends": [
-    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "overrides": [
