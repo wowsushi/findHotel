@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { Input } from '@/components'
+import { Input, Button } from '@/components'
 
 type FormValues = {
   email: string
@@ -37,13 +37,15 @@ const Login = () => {
               name="email"
               label="Email"
               error={errors?.email}
-              {...register('email')}
+              placeholder={'Email'}
+              register={register('email')}
             />
             <Input
               name="password"
               error={errors?.password}
               label={'密碼'}
-              {...register('password')}
+              placeholder="密碼"
+              register={register('password')}
             />
           </div>
 
@@ -74,10 +76,7 @@ const Login = () => {
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
+            <Button variant="primary" type="submit">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <LockClosedIcon
                   className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
@@ -85,7 +84,7 @@ const Login = () => {
                 />
               </span>
               登入
-            </button>
+            </Button>
           </div>
         </form>
       </div>
