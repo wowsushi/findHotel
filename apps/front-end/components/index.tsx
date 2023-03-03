@@ -1,3 +1,6 @@
 export * from './Form'
 export * from './Input'
 export * from './Button'
+export * from './Nav'
+export * from './Portal'
+export * from './PopUp'

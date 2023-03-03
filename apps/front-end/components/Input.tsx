@@ -1,4 +1,13 @@
-export const Input = ({
+import { FC, InputHTMLAttributes } from 'react'
+import { GlobalError, UseFormRegisterReturn } from 'react-hook-form'
+
+type Props = {
+  name: string
+  error: GlobalError
+  label: string
+  register: UseFormRegisterReturn
+} & InputHTMLAttributes<HTMLInputElement>
+export const Input: FC<Props> = ({
   name,
   error,
   label,
@@ -15,7 +24,7 @@ export const Input = ({
       <input
         id={inputId}
         name={name}
-        className="mt-2 mb-1 relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+        className="mt-2 mb-1 relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
         placeholder={placeholder}
         {...register}
         {...props}

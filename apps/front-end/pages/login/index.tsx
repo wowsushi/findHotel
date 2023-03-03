@@ -23,7 +23,7 @@ const Login = () => {
   const onSubmit = handleSubmit((data) => console.log(data))
 
   return (
-    <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -55,7 +55,7 @@ const Login = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
               />
               <label
                 htmlFor="remember-me"
@@ -68,7 +68,7 @@ const Login = () => {
             <div className="text-sm">
               <a
                 href="#"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="font-medium text-sky-600 hover:text-sky-500"
               >
                 忘記密碼？
               </a>
@@ -76,10 +76,10 @@ const Login = () => {
           </div>
 
           <div>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" fullWidth={true}>
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <LockClosedIcon
-                  className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  className="h-5 w-5 text-sky-500 group-hover:text-sky-400"
                   aria-hidden="true"
                 />
               </span>
@@ -91,4 +91,13 @@ const Login = () => {
     </div>
   )
 }
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      pageTitle: '登入',
+    },
+  }
+}
+
 export default Login
