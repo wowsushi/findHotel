@@ -10,11 +10,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title> {pageTitle ? `${pageTitle} | ` : ''} FINDHOTEL</title>
       </Head>
-      <Nav>
+      <body className="bg-slate-100">
+        <Nav></Nav>
         <main className="h-screen pt-[72px]">
           <Component {...pageProps} />
         </main>
-      </Nav>
+      </body>
     </>
   )
 }

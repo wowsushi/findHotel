@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC, PropsWithChildren } from 'react'
 
-export const Nav: FC<PropsWithChildren> = ({ children, ...props }) => {
+export const Nav: FC<PropsWithChildren> = ({ ...props }) => {
   return (
     <>
       <header>
-        <nav className="bg-white py-4 fixed top-0 w-full z-10 shadow-lg">
+        <nav className="bg-white py-4 fixed top-0 w-full z-10 shadow-lg px-8">
           <div className="container flex justify-between items-center mx-auto">
             <Link
               href="/"
@@ -28,7 +28,6 @@ export const Nav: FC<PropsWithChildren> = ({ children, ...props }) => {
           </div>
         </nav>
       </header>
-      {children}
     </>
   )
 }

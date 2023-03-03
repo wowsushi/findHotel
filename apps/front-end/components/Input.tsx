@@ -3,9 +3,9 @@ import { GlobalError, UseFormRegisterReturn } from 'react-hook-form'
 
 type Props = {
   name: string
-  error: GlobalError
-  label: string
-  register: UseFormRegisterReturn
+  error?: GlobalError
+  label?: string
+  register?: UseFormRegisterReturn
 } & InputHTMLAttributes<HTMLInputElement>
 export const Input: FC<Props> = ({
   name,
@@ -18,7 +18,7 @@ export const Input: FC<Props> = ({
   const inputId = `${name}-input`
   return (
     <div className="mb-4">
-      <label htmlFor={inputId} className="text-sm text-gray-">
+      <label htmlFor={inputId} className="text-gray-700 text-xs font-bold mb-2">
         {label}
       </label>
       <input
