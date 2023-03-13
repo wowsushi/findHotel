@@ -26,11 +26,11 @@ services:
     image: mysql:5.7
     volumes:
       - todo-mysql-data:/var/lib/mysql
-    environment: 
+    environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: findhotel
     ports:
-      - "3307:3306"
+      - "3306:3306"
 
 volumes:
   mono-node-modules: null

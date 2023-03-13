@@ -58,3 +58,7 @@ pre {
   overflow: scroll;
   padding: 0.5rem 0.75rem;
 }
+
+ul, li {
+  list-style: none;
+}

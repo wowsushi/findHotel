@@ -11,9 +11,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cf.bstatic.com',
+        hostname: 'image-store.asiayo.com',
         port: '',
-        pathname: '/**',
+        pathname: '/bnb/**',
       },
     ],
   },

@@ -1,21 +1,21 @@
 import { AppProps } from 'next/app'
-import Head from 'next/head'
 import { Nav } from '@/components'
 import './styles.css'
+import Head from 'next/head'
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const { pageTitle } = pageProps
+
+  const title = pageTitle ? `${pageTitle} | FINDHOTEL` : 'FINDHOTEL'
   return (
     <>
       <Head>
-        <title> {pageTitle ? `${pageTitle} | ` : ''} FINDHOTEL</title>
+        <title>{title}</title>
       </Head>
-      <body className="bg-slate-100">
-        <Nav></Nav>
-        <main className="h-screen pt-[72px]">
-          <Component {...pageProps} />
-        </main>
-      </body>
+      <Nav></Nav>
+      <main className="h-screen pt-[72px]">
+        <Component {...pageProps} />
+      </main>
     </>
   )
 }

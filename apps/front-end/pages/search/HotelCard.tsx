@@ -1,3 +1,4 @@
+import { PhoneIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 const card = {
   phone: '0286535353',
@@ -22,39 +23,46 @@ const card = {
     },
   ],
   pictures: [
-    'https://cf.bstatic.com/xdata/images/hotel/max1024x768/185637104.jpg?k=799a29d3fc71a0f70c742ad13e1a203f691ed917008b570c967a5c934f6aace5&o=&hp=1',
-    'https://cf.bstatic.com/xdata/images/hotel/max1024x768/413501734.jpg?k=5555302d3da3cd08af76c40349293b99ad1e901e10c0688bf60ca0a4d627123b&o=&hp=1',
-    'https://cf.bstatic.com/xdata/images/hotel/max1024x768/202108270.jpg?k=41d3db00b79e0e72046c691048b6cdbccd8b9e9607c3f851df64edeeff1c7d70&o=&hp=1',
+    'https://image-store.asiayo.com/bnb/38649/960xauto/desc_8MU7ew70K6OCFm.jpg',
+    'https://image-store.asiayo.com/bnb/38649/960xauto/desc_8MU7ew70K6OCFm.jpg',
+    'https://image-store.asiayo.com/bnb/38649/370xauto/desc_aiSWIiLX3cBIPj.jpg',
   ],
   checkInTime: '14:00',
   checkOutTime: '11:00',
+  price: 2230,
 }
 export const HotelCard = () => {
-  const item = card
   return (
-    <section className="bg-white flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden border border-gray-100 hover:border-sky-200 transition my-8 py-8 px-4">
+    <section className="bg-white flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden border border-gray-100 hover:border-sky-200 transition mb-4 p-4 cursor-pointer">
       <div className="md:w-1/3">
         <Image
-          // src={card.pictures[0]}
-          src={'/'}
+          src={card.pictures[0]}
           alt={card.name}
-          width={50}
-          height={50}
+          width={960}
+          height={720}
           className="h-full w-full object-cover"
         />
       </div>
-      <div className="md:w-2/3 p-4">
-        <h2 className="font-bold text-xl mb-2">{card.name}</h2>
+      <div className="md:w-2/3 p-4 pt-0">
+        <h2 className="font-bold text-xl mb-2 text-sky-700">{card.name}</h2>
         <p className="text-gray-700 text-base mb-2">{card.address}</p>
-        <p className="text-gray-700 text-base mb-2">{card.phone}</p>
+        <p className="text-gray-700 text-base mb-2 flex items-center">
+          <PhoneIcon
+            className="h-5 w-5 text-sky-500 group-hover:text-sky-400 mr-2"
+            aria-hidden="true"
+          />
+          {card.phone}
+        </p>
         <p className="text-gray-700 text-base mb-2">
           入住時間: {card.checkInTime} | 退房時間: {card.checkOutTime}
         </p>
         <div className="mb-2">
           <h3 className="font-bold text-lg mb-1">特色</h3>
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside flex">
             {card.facilitices.map((f) => (
-              <li key={f.type}>{f.name}</li>
+              <li key={f.type} className="p-1">
+                {f.name}
+              </li>
             ))}
           </ul>
         </div>

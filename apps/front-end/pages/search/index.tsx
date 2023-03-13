@@ -1,15 +1,19 @@
 import { HotelCard } from './HotelCard'
+import { SearchArea } from './SearchArea'
 
 const Search = () => {
   return (
-    <div className="container max-w-screen-md mx-auto py-4 px-2">
-      <HotelCard />
-      <HotelCard />
-      <HotelCard />
-      <HotelCard />
-      <HotelCard />
-      <HotelCard />
-      <HotelCard />
+    <div className="container max-w-screen-lg mx-auto py-4 px-2 flex flex-row">
+      <SearchArea />
+      <div>
+        <HotelCard />
+        <HotelCard />
+        <HotelCard />
+        <HotelCard />
+        <HotelCard />
+        <HotelCard />
+        <HotelCard />
+      </div>
     </div>
   )
 }
