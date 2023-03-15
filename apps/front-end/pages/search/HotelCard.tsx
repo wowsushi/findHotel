@@ -59,8 +59,8 @@ export const HotelCard: FC<Props> = ({ hotel }) => {
           </div>
         </div>
         <div className="flex flex-row md:flex-col justify-end md:justify-center items-end">
-          <span className="text-xs text-end md:order-2 mr-2 md:mr-0">
-            每晚最優惠價
+          <span className="text-sm text-end md:order-2 mr-2 md:mr-0">
+            最優惠價
           </span>
           <h3 className="font-bold text-2xl text-red-600 md:order-1">
             ${utility.numberToCurrency(hotel.price)}

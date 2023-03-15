@@ -1,9 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
-import DatePicker from 'react-datepicker'
 import { useState } from 'react'
-import 'react-datepicker/dist/react-datepicker.css'
 import { Button, DateRangePicker, Input } from '@/components'
 
 type FormValues = {
@@ -36,7 +34,7 @@ export const SearchArea = () => {
   }
 
   return (
-    <section className="w-full lg:w-1/2 py-0 lg:py-4 mr-4 px-0 lg:px-2 sticky top-[72px] lg:top-[88px]">
+    <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 sticky top-[72px] lg:top-[88px] z-10">
       <div className="lg:hidden flex justify-between items-center p-2 bg-sky-200">
         <p>2023/01/12 ~ 2023/01/13</p>
         <Button variant="primary" onClick={handleToggleSearchArea}>

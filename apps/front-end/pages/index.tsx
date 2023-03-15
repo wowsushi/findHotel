@@ -60,7 +60,7 @@ const Index = () => {
             </div>
             <div className="md:w-1/2 px-3 mb-6">
               <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
                 htmlFor="grid-start-date"
               >
                 入住日期
@@ -79,7 +79,7 @@ const Index = () => {
             </div>
             <div className="px-3">
               <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
                 htmlFor="grid-guests"
               >
                 入住人數

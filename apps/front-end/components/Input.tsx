@@ -25,7 +25,7 @@ export const Input: FC<Props> = ({
       return (
         <>
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold"
+            className="block uppercase tracking-wide text-gray-700 text-sm font-bold"
             htmlFor={name}
           >
             {label}
@@ -54,7 +54,7 @@ export const Input: FC<Props> = ({
   }
   return (
     <div className="mb-2">
-      <label htmlFor={inputId} className="text-gray-700 text-xs font-bold mb-2">
+      <label htmlFor={inputId} className="text-gray-700 text-sm font-bold mb-2">
         {label}
       </label>
       <input

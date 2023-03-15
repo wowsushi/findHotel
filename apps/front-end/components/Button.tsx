@@ -9,6 +9,7 @@ export const Button: FC<Props> = ({
   variant,
   type,
   fullWidth,
+  className,
   ...props
 }) => {
   const styles = {
@@ -20,7 +21,7 @@ export const Button: FC<Props> = ({
       type={type}
       className={`group relative flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 ${
         styles[variant]
-      } ${fullWidth ? 'w-full' : ''}`}
+      } ${fullWidth ? 'w-full' : ''} ${className}`}
       {...props}
     >
       {children}

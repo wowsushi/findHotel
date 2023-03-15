@@ -21,7 +21,7 @@ export const Nav: FC<PropsWithChildren> = ({ ...props }) => {
             </Link>
             <Link
               href="/login"
-              className="bg-sky-500 text-white font-bold py-2 px-4 rounded"
+              className="bg-sky-500 text-white py-2 px-4 rounded"
             >
               登入
             </Link>
