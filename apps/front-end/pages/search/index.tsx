@@ -51,7 +51,7 @@ const hotel = {
 
 const Search = () => {
   return (
-    <div className="container max-w-screen-lg mx-auto flex flex-col lg:flex-row">
+    <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
       <SearchArea />
       <div className="py-4 px-2">
         <HotelCard hotel={hotel} />
