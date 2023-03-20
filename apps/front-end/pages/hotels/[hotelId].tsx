@@ -22,7 +22,7 @@ type Facility = {
   name: string
 }
 
-type Room = {
+export type Room = {
   id: string
   name: string
   price: number
