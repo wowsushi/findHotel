@@ -9,19 +9,11 @@ build:
   local:
     push: false
   artifacts:
-    - image: betty713/back-end
+    - image: betty713/findhotel
       context: .
       docker:
-        dockerfile: apps/back-end/Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: 'src/**/*.ts'
-            dest: .
-    - image: betty713/front-end
-      context: .
-      docker:
-        dockerfile: apps/front-end/Dockerfile
-      sync:
-        manual:
-          - src: "**/*.js"
+          - src: '/apps/**/*'
             dest: .

@@ -1,0 +1,11 @@
+FROM docker.io/node:lts-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD ["npx", "nx", "run-many", "--target=serve", "--all=true"]
