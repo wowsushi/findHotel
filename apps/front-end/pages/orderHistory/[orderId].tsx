@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { AspectRatio, Button, Typography } from '@/components'
+import { AspectRatio, Typography } from '@/components'
 import { utility } from '@findhotel/common'
 import {
   MapPinIcon,
