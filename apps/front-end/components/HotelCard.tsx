@@ -2,7 +2,7 @@ import { CheckIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import { FC } from 'react'
 import { utility } from '@findhotel/common'
-import { HotelProps } from '.'
+import { HotelProps } from '../pages/search'
 import Link from 'next/link'
 type Props = {
   hotel: HotelProps

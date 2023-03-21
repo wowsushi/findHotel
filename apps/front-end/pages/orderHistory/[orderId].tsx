@@ -10,7 +10,8 @@ import {
 } from '@heroicons/react/20/solid'
 import dayjs from 'dayjs'
 import { FC } from 'react'
-import { HotelProps, Room } from '../search'
+import { HotelProps } from '../search'
+import { Room } from '../hotels/[hotelId]'
 const { H2, H3, H4, Text1 } = Typography
 
 const fakeData = {

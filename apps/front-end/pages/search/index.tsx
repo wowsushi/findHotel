@@ -1,4 +1,4 @@
-import { HotelCard } from './HotelCard'
+import { HotelCard } from '../../components/HotelCard'
 import { SearchArea } from '@/components'
 type Facility = {
   type: number
@@ -49,7 +49,8 @@ const hotel = {
   price: 2230,
 }
 
-const Search = () => {
+const Search = ({ hotel }) => {
+  if (!hotel || !hotel.id) return
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
       <SearchArea />
@@ -69,6 +70,7 @@ const Search = () => {
 export async function getStaticProps(context) {
   return {
     props: {
+      hotel,
       pageTitle: '現在就預訂飯店！',
     },
   }

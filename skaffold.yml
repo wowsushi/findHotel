@@ -12,7 +12,7 @@ build:
     - image: betty713/back-end
       context: .
       docker:
-        dockerfile: apps/back-end/Dockerfile.dev
+        dockerfile: apps/back-end/Dockerfile
       sync:
         manual:
           - src: 'src/**/*.ts'
@@ -20,7 +20,7 @@ build:
     - image: betty713/front-end
       context: .
       docker:
-        dockerfile: apps/front-end/Dockerfile.dev
+        dockerfile: apps/front-end/Dockerfile
       sync:
         manual:
           - src: "**/*.js"
