@@ -16,7 +16,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t betty713/findhotel apps/findhotel
+      - run: docker build -t betty713/findhotel .
       - run: docker push betty713/findhotel
       - uses: digitalocean/action-doctl@v2
         with:
