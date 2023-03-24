@@ -9,7 +9,6 @@ import {
   Query,
   NotFoundException,
   Session,
-  UseGuards,
 } from '@nestjs/common'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
@@ -19,8 +18,10 @@ import { AuthService } from './auth.service'
 import { CurrentUser } from './decorators/current-user.decorator'
 import { User } from './user.entity'
 import { Serialize } from '../../interceptors/serialize.interceptor'
-import { AuthGuard } from '../../guards/auth.guard'
 
+type Session = {
+  userId: number
+}
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
@@ -30,25 +31,24 @@ export class UsersController {
   ) {}
 
   @Get('/whoami')
-  @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
     return user
   }
 
   @Post('/signout')
-  signOut(@Session() session: any) {
+  signOut(@Session() session: Session) {
     session.userId = null
   }
 
   @Post('/signup')
-  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+  async createUser(@Body() body: CreateUserDto, @Session() session: Session) {
     const user = await this.authService.signup(body.email, body.password)
     session.userId = user.id
     return user
   }
 
   @Post('/signin')
-  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+  async signin(@Body() body: CreateUserDto, @Session() session: Session) {
     const user = await this.authService.signin(body.email, body.password)
     session.userId = user.id
     return user

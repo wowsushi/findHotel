@@ -43,6 +43,8 @@ export class AppModule {
     consumer
       .apply(
         cookieSession({
+          signed: false,
+          secure: false,
           keys: [this.configService.get('COOKIE_KEY')],
         })
       )

@@ -1,8 +1,15 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
+import { NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: {
+      origin: /^http:\/\/localhost:/,
+      credentials: true,
+    },
+  })
+
   ;(app as any).set('etag', false)
   app.use((req, res, next) => {
     res.removeHeader('x-powered-by')

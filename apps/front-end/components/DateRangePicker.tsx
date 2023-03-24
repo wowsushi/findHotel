@@ -1,8 +1,12 @@
+import { FC } from 'react'
 import DatePicker from 'react-datepicker'
-
 import 'react-datepicker/dist/react-datepicker.css'
 
-export const DateRangePicker = ({ label, ...props }) => {
+type Props = {
+  label: string
+}
+
+export const DateRangePicker: FC<Props> = ({ label, ...props }) => {
   return (
     <>
       <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">

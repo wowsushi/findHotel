@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@findhotel/common": ["libs/common/src"]
+      "@findhotel/common": ["/libs/common/src"]
     }
 
   },

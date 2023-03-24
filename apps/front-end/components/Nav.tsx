@@ -1,9 +1,33 @@
+import { useFetch } from '@/hooks'
 import { BuildingOffice2Icon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FC, PropsWithChildren } from 'react'
+import { useRouter } from 'next/router'
+import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { Button } from './Button'
 
-export const Nav: FC<PropsWithChildren> = ({ ...props }) => {
+type CurrentUser = {
+  id: number
+  email: string
+}
+
+type Props = {
+  currentUser: CurrentUser
+}
+export const Nav: FC<PropsWithChildren<Props>> = ({
+  currentUser,
+  ...props
+}) => {
+  const router = useRouter()
+  const { doRequest } = useFetch()
+  const handleLogOut = async () => {
+    await doRequest({
+      url: '/auth/signout',
+      method: 'post',
+    })
+
+    router.reload()
+  }
   return (
     <>
       <header>
@@ -19,12 +43,21 @@ export const Nav: FC<PropsWithChildren> = ({ ...props }) => {
               />
               FINDHOTEL
             </Link>
-            <Link
-              href="/login"
-              className="bg-sky-500 text-white py-2 px-4 rounded"
-            >
-              登入
-            </Link>
+            {currentUser ? (
+              <>
+                你好 {currentUser.email}
+                <Button variant="primary" onClick={handleLogOut}>
+                  登出
+                </Button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-sky-500 text-white py-2 px-4 rounded"
+              >
+                登入
+              </Link>
+            )}
           </div>
         </nav>
       </header>

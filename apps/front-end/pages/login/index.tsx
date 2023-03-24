@@ -2,8 +2,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { Input, Button } from '@/components'
-
+import { Input, Button, Modal, Portal } from '@/components'
+import { useFetch } from '@/hooks'
+import { useRouter } from 'next/router'
+import ReactDOM from 'react-dom'
+import { createElement } from 'react'
 type FormValues = {
   email: string
   password: string
@@ -15,12 +18,26 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
 })
 
 const Login = () => {
+  const router = useRouter()
+  const { doRequest } = useFetch()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({ resolver: yupResolver(schema) })
-  const onSubmit = handleSubmit((data) => console.log(data))
+
+  const onSubmit = handleSubmit(async (data) => {
+    await doRequest({
+      url: '/auth/signin',
+      data: {
+        email: data.email,
+        password: data.password,
+      },
+      method: 'post',
+      onSuccess: () => Modal.alert('登入成功', () => router.push('/')),
+    })
+  })
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -42,6 +59,7 @@ const Login = () => {
             />
             <Input
               name="password"
+              type="password"
               error={errors?.password}
               label={'密碼'}
               placeholder="密碼"
@@ -74,7 +92,6 @@ const Login = () => {
               </a>
             </div>
           </div>
-
           <div>
             <Button variant="primary" type="submit" fullWidth={true}>
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">

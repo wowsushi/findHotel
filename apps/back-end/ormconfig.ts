@@ -19,10 +19,10 @@ switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
       type: 'mysql',
-      host: 'findhotel-db-do-user-13512293-0.b.db.ondigitalocean.com',
-      port: 25060,
-      username: 'doadmin',
-      password: 'AVNS_N7vJ1o9pgY3Ndp3w_0c ',
+      host: 'localhost',
+      port: 3307,
+      username: 'root',
+      password: 'root',
       synchronize: true,
       database: 'findhotel',
       entities: [User, Report, Room, Hotel, Order],
