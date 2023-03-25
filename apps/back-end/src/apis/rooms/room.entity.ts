@@ -37,6 +37,9 @@ export class Room {
   @Column()
   people: number
 
+  @Column()
+  amount: number
+
   @Column('simple-array')
   pictures: string[]
 

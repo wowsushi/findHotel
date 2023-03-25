@@ -4,6 +4,9 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
   label: string
+  startDate: string
+  endDate: string
+  onChange: (update: [string, string]) => void
 }
 
 export const DateRangePicker: FC<Props> = ({ label, ...props }) => {

@@ -14,8 +14,8 @@ const fakeData = [
       address: '台中南屯区向上路三段221號',
       name: '王子大飯店',
     },
-    checkInDate: Date.now(),
-    checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+    startDate: Date.now(),
+    endDate: Date.now() + 60 * 60 * 24 * 1000,
     night: 1,
     amount: 2330,
   },
@@ -27,8 +27,8 @@ const fakeData = [
       address: '台中南屯区向上路三段221號',
       name: '王子大飯店',
     },
-    checkInDate: Date.now(),
-    checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+    startDate: Date.now(),
+    endDate: Date.now() + 60 * 60 * 24 * 1000,
     night: 1,
     amount: 2330,
   },
@@ -40,8 +40,8 @@ const fakeData = [
       address: '台中南屯区向上路三段221號',
       name: '王子大飯店',
     },
-    checkInDate: Date.now(),
-    checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+    startDate: Date.now(),
+    endDate: Date.now() + 60 * 60 * 24 * 1000,
     night: 1,
     amount: 2330,
   },
@@ -53,8 +53,8 @@ const fakeData = [
       address: '台中南屯区向上路三段221號',
       name: '王子大飯店',
     },
-    checkInDate: Date.now(),
-    checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+    startDate: Date.now(),
+    endDate: Date.now() + 60 * 60 * 24 * 1000,
     night: 1,
     amount: 2330,
   },
@@ -66,8 +66,8 @@ const fakeData = [
       address: '台中南屯区向上路三段221號',
       name: '王子大飯店',
     },
-    checkInDate: Date.now(),
-    checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+    startDate: Date.now(),
+    endDate: Date.now() + 60 * 60 * 24 * 1000,
     night: 1,
     amount: 2330,
   },
@@ -77,8 +77,8 @@ type Props = {
   listData: {
     id: number
     hotel: Pick<HotelProps, 'id' | 'phone' | 'address' | 'name'>
-    checkInDate: number
-    checkOutDate: number
+    startDate: number
+    endDate: number
     night: number
     amount: number
   }[]
@@ -103,8 +103,8 @@ const OrderHistory: FC<Props> = ({ listData }) => {
                 </Text1>
               </div>
               <Text1>
-                {dayjs(item.checkInDate).format('YYYY/MM/DD(dd)')} ~{' '}
-                {dayjs(item.checkOutDate).format('YYYY/MM/DD(dd)')}
+                {dayjs(item.startDate).format('YYYY/MM/DD(dd)')} ~{' '}
+                {dayjs(item.endDate).format('YYYY/MM/DD(dd)')}
               </Text1>
               <Text1>入住{item.night}晚</Text1>
             </li>

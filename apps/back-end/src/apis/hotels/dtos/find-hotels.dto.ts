@@ -1,16 +1,29 @@
 import { Transform } from 'class-transformer'
-import { IsDate, IsNumber } from 'class-validator'
+import { IsDate, IsNumber, IsOptional } from 'class-validator'
 
 export class FindHotelsDto {
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  checkInDate: Date
+  startDate: Date
 
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  checkOutDate: Date
+  endDate: Date
 
+  @IsOptional()
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
-  people: number
+  adult: number
+
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value))
+  @IsNumber()
+  child: number
+
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value))
+  @IsNumber()
+  room: number
 }

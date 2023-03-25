@@ -9,9 +9,10 @@ content-type: application/json
   "facilities": [0,1,2],
   "people": 2,
   "pictures": [
-    "https://cf.bstatic.com/xdata/images/hotel/max1024x768/95506641.jpg?k=e9538e6bd6d00ba6e5dfa4d09c087f59d4469c16dce8ec7d60aee04766156605&o=",
-    "https://cf.bstatic.com/xdata/images/hotel/max1024x768/103705036.jpg?k=eff032051b03f84eb72c8b7ad822e069e7b27a946f02a2b5dfca6f1276ff5c34&o=",
-    "https://cf.bstatic.com/xdata/images/hotel/max1024x768/103705251.jpg?k=e7fc3d75a92d0f07840244b6b322a97c9a74de6cd823e29670eea856d82147e2&o="
+    "https://image-store.asiayo.com/bnb/38649/960xauto/desc_8MU7ew70K6OCFm.jpg",
+    "https://image-store.asiayo.com/bnb/25993/960xauto/desc_5WyvN3f4rVbMiz.jpg",
+    "https://image-store.asiayo.com/bnb/38649/370xauto/desc_aiSWIiLX3cBIPj.jpg"
   ],
-  "hotelId": 2
+  "hotelId": 9,
+  "amount": 3
 }

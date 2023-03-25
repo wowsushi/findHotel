@@ -23,11 +23,11 @@ class ConsumerDto {
 export class CreateOrderDto {
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  checkInDate: Date
+  startDate: Date
 
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  checkOutDate: Date
+  endDate: Date
 
   @IsNumber()
   roomId: number

@@ -2,10 +2,11 @@ import { CheckIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import { FC } from 'react'
 import { utility } from '@findhotel/common'
-import { HotelProps } from '../pages/search'
+import type { OFindHotels } from '@/types/hotels'
+
 import Link from 'next/link'
 type Props = {
-  hotel: HotelProps
+  hotel: OFindHotels
 }
 
 export const HotelCard: FC<Props> = ({ hotel }) => {
@@ -46,7 +47,7 @@ export const HotelCard: FC<Props> = ({ hotel }) => {
           <div className="mb-2 hidden md:block">
             <h3 className="font-bold text-lg">特色</h3>
             <ul className="list-disc list-inside flex flex-wrap items-center">
-              {hotel.facilitices.map((f) => (
+              {hotel.facilities.map((f) => (
                 <li key={f.type} className="p-1 mr-2 flex items-center">
                   <CheckIcon
                     className="h-5 w-5 text-green-500 mr-1"
@@ -63,7 +64,7 @@ export const HotelCard: FC<Props> = ({ hotel }) => {
             最優惠價
           </span>
           <h3 className="font-bold text-2xl text-red-600 md:order-1">
-            ${utility.numberToCurrency(hotel.price)}
+            ${utility.numberToCurrency(hotel.bestPrice)}
           </h3>
         </div>
       </div>

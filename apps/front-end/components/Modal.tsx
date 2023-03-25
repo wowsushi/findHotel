@@ -19,7 +19,7 @@ type ModalComponent<T> = FC<T> & {
 const _Modal: FC<Props> = ({
   isOpen: _isOpen,
   target = 'modal',
-  header = 22222,
+  header,
   children,
   onConfirm,
   ...props

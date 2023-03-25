@@ -28,10 +28,11 @@ export const Nav: FC<PropsWithChildren<Props>> = ({
 
     router.reload()
   }
+  const isShowLogin = !router.pathname.includes('login')
   return (
     <>
       <header>
-        <nav className="bg-white py-4 fixed top-0 w-full z-10 shadow-lg px-8">
+        <nav className="bg-white py-4 fixed top-0 w-full z-10 shadow-lg px-4 lg:px-8">
           <div className="container flex justify-between items-center mx-auto">
             <Link
               href="/"
@@ -43,21 +44,25 @@ export const Nav: FC<PropsWithChildren<Props>> = ({
               />
               FINDHOTEL
             </Link>
-            {currentUser ? (
-              <>
-                你好 {currentUser.email}
-                <Button variant="primary" onClick={handleLogOut}>
-                  登出
-                </Button>
-              </>
-            ) : (
-              <Link
-                href="/login"
-                className="bg-sky-500 text-white py-2 px-4 rounded"
-              >
-                登入
-              </Link>
-            )}
+            <div className="flex gap-4 items-center">
+              {currentUser ? (
+                <>
+                  {/* 你好 {currentUser.email} */}
+                  <Button variant="primary" onClick={handleLogOut}>
+                    登出
+                  </Button>
+                </>
+              ) : (
+                isShowLogin && (
+                  <Link
+                    href="/login"
+                    className="bg-sky-500 text-white py-2 px-4 rounded"
+                  >
+                    登入
+                  </Link>
+                )
+              )}
+            </div>
           </div>
         </nav>
       </header>

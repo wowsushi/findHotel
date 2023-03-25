@@ -1,33 +1,36 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { Button, DateRangePicker, Input } from '@/components'
+import type { IFindHotels } from '../api/types/hotels'
+import { useFetch } from '@/hooks'
+import { SearchContext } from '../pages/search'
 
-type FormValues = {
-  area: string
-  startDate: string
-  endDate: string
-  adult: number
-  child: number
+type Props = {
+  onSearch: (hotelQuery: IFindHotels) => Promise<void>
 }
-export const SearchArea = () => {
+
+export const SearchArea: FC<Props> = () => {
+  const { doRequest } = useFetch()
+  const { state, dispatch } = useContext(SearchContext)
   const [dateRange, setDateRange] = useState([null, null])
   const [isShowSearchArea, setIsShowSearchArea] = useState(false)
-  const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
+  const schema: yup.ObjectSchema<IFindHotels> = yup.object().shape({
     area: yup.string(),
     startDate: yup.string(),
     endDate: yup.string(),
     adult: yup.number(),
     child: yup.number(),
+    room: yup.number(),
   })
   const {
     register,
-    handleSubmit,
+    handleSubmit: _handleSubmit,
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: yupResolver(schema) })
+  } = useForm<IFindHotels>({ resolver: yupResolver(schema) })
 
   const handleToggleSearchArea = () => {
     setIsShowSearchArea(!isShowSearchArea)
@@ -98,10 +101,10 @@ export const SearchArea = () => {
               label="小孩"
               register={register('child')}
             >
-              {Array(5)
+              {Array(6)
                 .fill(null)
                 .map((_, i) => (
-                  <option key={i}>{i + 1}</option>
+                  <option key={i}>{1}</option>
                 ))}
             </Input>
           </fieldset>

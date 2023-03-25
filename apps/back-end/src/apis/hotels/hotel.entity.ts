@@ -35,5 +35,5 @@ export class Hotel {
   @OneToMany(() => Room, (room) => room.hotel, {
     cascade: true,
   })
-  rooms: string
+  rooms: Room[]
 }

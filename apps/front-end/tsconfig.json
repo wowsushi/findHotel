@@ -15,6 +15,7 @@
     "paths": {
       "@/components": ["apps/front-end/components"],
       "@/hooks": ["apps/front-end/hooks"],
+      "@/types/*": ["apps/front-end/api/types/*"],
       "@findhotel/common": ["libs/common/src"]
     },
   },

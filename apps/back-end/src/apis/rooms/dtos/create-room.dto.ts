@@ -29,6 +29,9 @@ export class CreateRoomDto {
   @IsNumber()
   people: number
 
+  @IsNumber()
+  amount: number
+
   @IsArray()
   pictures: string[]
 

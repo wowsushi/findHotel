@@ -14,15 +14,15 @@ export class OrdersService {
   ) {}
 
   async create(body: CreateOrderDto, user: User) {
-    const { roomId, checkInDate, checkOutDate } = body
+    const { roomId, startDate, endDate } = body
 
     const existingOrder = await this.orderRepo
       .createQueryBuilder('order')
       .where('roomId = :roomId', { roomId })
-      .andWhere(
-        ':checkInDate < order.checkOutDate AND :checkOutDate > order.checkInDate',
-        { checkInDate, checkOutDate }
-      )
+      .andWhere(':startDate < order.endDate AND :endDate > order.startDate', {
+        startDate,
+        endDate,
+      })
       .getExists()
 
     if (existingOrder) {
@@ -33,8 +33,7 @@ export class OrdersService {
     const ONE_DAY = 60 * 60 * 24 * 1000
     const EXPIRED_TIMER = 15 * 60 * 1000
     const reservedDate = Math.floor(
-      (new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) /
-        ONE_DAY
+      (new Date(endDate).getTime() - new Date(startDate).getTime()) / ONE_DAY
     )
     order.price = room.discountPrice * reservedDate
     order.expiredAt = new Date(new Date().getTime() + EXPIRED_TIMER)

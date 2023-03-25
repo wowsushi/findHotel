@@ -54,8 +54,8 @@ const fakeData = {
     },
   },
   id: '8464546',
-  checkInDate: Date.now(),
-  checkOutDate: Date.now() + 60 * 60 * 24 * 1000,
+  startDate: Date.now(),
+  endDate: Date.now() + 60 * 60 * 24 * 1000,
   night: 1,
   amount: 13565,
   note: '備註區',
@@ -69,8 +69,8 @@ type Props = {
   model: {
     hotel: Omit<HotelProps, 'rooms'> & { room: Room }
     id: number
-    checkInDate: number
-    checkOutDate: number
+    startDate: number
+    endDate: number
     night: number
     amount: number
     note: string
@@ -104,11 +104,11 @@ const OrderHistoryDetail: FC<Props> = ({ model }) => {
             </p>
           </div>
           <Text1 className="text-gray-700 mb-2 flex items-center">
-            入住時間：{dayjs(model.checkInDate).format('YYYY/MM/DD(dd)')}{' '}
+            入住時間：{dayjs(model.startDate).format('YYYY/MM/DD(dd)')}{' '}
             {model.hotel.checkInTime} 後
           </Text1>
           <Text1 className="text-gray-700 mb-2 flex items-center">
-            退房時間：{dayjs(model.checkOutDate).format('YYYY/MM/DD(dd)')}{' '}
+            退房時間：{dayjs(model.endDate).format('YYYY/MM/DD(dd)')}{' '}
             {model.hotel.checkOutTime} 前
           </Text1>
           <Text1>入住 {model.night} 晚</Text1>

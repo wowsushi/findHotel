@@ -17,10 +17,10 @@ export class Order {
   expiredAt: Date
 
   @Column()
-  checkInDate: Date
+  startDate: Date
 
   @Column()
-  checkOutDate: Date
+  endDate: Date
 
   @Column()
   price: number

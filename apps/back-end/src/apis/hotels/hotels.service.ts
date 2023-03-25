@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Order } from '../orders/order.entity'
 import { Room } from '../rooms/room.entity'
+import { RoomsService } from '../rooms/rooms.service'
 import { CreateHotelDto } from './dtos/create-hotel.dto'
 import { FindHotelsDto } from './dtos/find-hotels.dto'
 import { Hotel } from './hotel.entity'
@@ -13,7 +14,8 @@ export class HotelsService {
   constructor(
     @InjectRepository(Hotel) private hotelRepo: Repository<Hotel>,
     @InjectRepository(Room) private roomRepo: Repository<Room>,
-    @InjectRepository(Order) private orderRepo: Repository<Order>
+    @InjectRepository(Order) private orderRepo: Repository<Order>,
+    private roomsService: RoomsService
   ) {}
 
   async create(body: CreateHotelDto) {
@@ -28,28 +30,45 @@ export class HotelsService {
     return this.hotelRepo.save(hotel)
   }
 
-  findAvailableHotels({ people, checkInDate, checkOutDate }: FindHotelsDto) {
-    const hotels = this.roomRepo
-      .createQueryBuilder('room')
+  async findAvailableHotels({
+    adult = 0,
+    child = 0,
+    room = 0,
+    startDate,
+    endDate,
+  }: FindHotelsDto) {
+    const people = adult + child
+    const _hotels = await this.hotelRepo
+      .createQueryBuilder('hotel')
+      .leftJoinAndSelect('hotel.rooms', 'room')
       .leftJoinAndSelect('room.orders', 'order')
       .where('room.people >= :people', { people })
+      .andWhere('room.amount >= :room', { room })
       .andWhere(
         (qb) => {
           const subQuery = qb
             .subQuery()
             .select('order.roomId')
             .from(Order, 'order')
-            .where(
-              ':checkInDate < order.checkOutDate AND :checkOutDate > order.checkInDate'
-            )
+            .where(':startDate < order.endDate AND :endDate > order.startDate')
             .getQuery()
           return `room.id NOT IN ${subQuery}`
         },
-        { checkInDate, checkOutDate }
+        { startDate, endDate }
       )
-      .leftJoinAndSelect('room.hotel', 'hotel')
       .getMany()
 
+    const hotels = _hotels.map(({ rooms, ...rest }) => {
+      const lowerestRoom = rooms.sort(
+        (a, b) => a.discountPrice - b.discountPrice
+      )[0]
+
+      return {
+        ...rest,
+        bestPrice: lowerestRoom.discountPrice,
+        facilities: this.roomsService.getFacilities(lowerestRoom.facilities),
+      }
+    })
     return hotels
   }
 
