@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import {
   AspectRatio,
@@ -15,92 +15,60 @@ import {
 } from '@heroicons/react/20/solid'
 import { utility } from '@findhotel/common'
 import { useRouter } from 'next/router'
+import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
+import { useFetch } from '@/hooks'
+import { SearchContext } from '../_app'
+import { OFindRooms } from '@/types/rooms'
+import { NextPage, NextPageContext } from 'next'
+import { AxiosInstance } from 'axios'
 const { H3, H4, Text1 } = Typography
 
-type Facility = {
-  type: number
-  name: string
-}
-
-export type Room = {
-  id: string
-  name: string
-  price: number
-  people: number
-  hasBreakfast: boolean
-}
-export type HotelProps = {
-  id: string
-  phone: string
-  address: string
-  name: string
-  facilitices: Facility[]
-  pictures: string[]
-  checkInTime: string
-  checkOutTime: string
-  price: number
-  rooms: Room[]
-}
-
 type Props = {
-  hotel: HotelProps
+  hotel: OFindHotels
+  pageTitle: string
 }
-const hotel = {
-  id: '1',
-  phone: '0286535353',
-  address: '台中南屯区向上路三段221號',
-  name: '王子大飯店',
-  facilitices: [
-    {
-      type: 1,
-      name: '早餐',
-    },
-    {
-      type: 2,
-      name: '健身房',
-    },
-    {
-      type: 3,
-      name: '泳池',
-    },
-    {
-      type: 4,
-      name: '兒童遊戲室',
-    },
-  ],
-  pictures: [
-    'https://image-store.asiayo.com/bnb/38649/960xauto/desc_8MU7ew70K6OCFm.jpg',
-    'https://image-store.asiayo.com/bnb/25993/960xauto/desc_5WyvN3f4rVbMiz.jpg',
-    'https://image-store.asiayo.com/bnb/38649/370xauto/desc_aiSWIiLX3cBIPj.jpg',
-  ],
-  checkInTime: '14:00',
-  checkOutTime: '11:00',
-  rooms: [
-    {
-      id: '1',
-      name: '豪華雙人房',
-      people: 2,
-      price: 3300,
-      hasBreakfast: true,
-    },
-    {
-      id: '2',
-      name: '豪華單人房',
-      people: 1,
-      price: 2300,
-      hasBreakfast: false,
-    },
-  ],
-}
-const HotelDetail: FC<Props> = ({ hotel }) => {
-  const router = useRouter()
 
-  const handleBookRoom = (roomId) => {
+const HotelDetail: NextPage<Props> = ({ hotel }) => {
+  const router = useRouter()
+  const { doRequest } = useFetch()
+  const [rooms, setRooms] = useState<OFindRooms[]>([])
+  const { searchState, setSearchState } = useContext(SearchContext)
+  const { searchQuery } = searchState
+
+  useEffect(() => {
+    if (searchQuery) {
+      handleSerachRoom(searchQuery)
+    }
+  }, [searchQuery])
+
+  const handleBookRoom = (roomId: number) => {
+    const query = {
+      ...searchQuery,
+      roomId,
+      hotelId: +router.query.hotelId,
+    }
+    sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
+    debugger
     router.push('/checkout')
   }
+
+  const handleSerachRoom = async (query: HotelQuery) => {
+    const hotelId = router.query.hotelId
+    const rooms = await doRequest({
+      url: '/hotels/findRooms',
+      method: 'get',
+      params: {
+        hotelId,
+      },
+    })
+
+    setSearchState({ searchQuery: query })
+    setRooms(rooms)
+  }
+
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
-      <SearchArea />
+      <SearchArea searchQuery={searchQuery} onSearch={handleSerachRoom} />
       <div className="overflow-hidden">
         <h1 className="text-3xl font-bold m-4">{hotel.name}</h1>
         <Slider className="lg:hidden">
@@ -224,7 +192,7 @@ const HotelDetail: FC<Props> = ({ hotel }) => {
           <section className="pt-4">
             <H3>房型</H3>
             <ul className="mb-4 flex flex-col xl:flex-row gap-4">
-              {hotel.rooms.map((room) => (
+              {rooms.map((room) => (
                 <li
                   className="rounded-lg border border-slate-400 min-h-[130px] flex justify-between shadow-md xl:w-1/2"
                   key={room.id}
@@ -247,7 +215,7 @@ const HotelDetail: FC<Props> = ({ hotel }) => {
                   <div className="w-1/3 flex flex-col p-2 justify-center items-center">
                     <span className="text-xs">2人 / 2房 / 1晚</span>
                     <span className="text-red-500 text-2xl font-bold mb-2">
-                      ${utility.numberToCurrency(room.price)}
+                      ${utility.numberToCurrency(room.discountPrice)}
                     </span>
                     <Button
                       variant="primary"
@@ -266,7 +234,7 @@ const HotelDetail: FC<Props> = ({ hotel }) => {
           <section className="pt-4">
             <H3>設施</H3>
             <ul className="list-disc list-inside grid grid-cols-2 items-center mb-4">
-              {hotel.facilitices.map((f) => (
+              {hotel.facilities?.map((f) => (
                 <li key={f.type} className="p-1 mr-2 flex items-center">
                   <CheckIcon
                     className="h-5 w-5 text-green-500 mr-1"
@@ -333,13 +301,13 @@ const HotelDetail: FC<Props> = ({ hotel }) => {
   )
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: {
-      hotel,
-      pageTitle: hotel.name,
-    },
-  }
+HotelDetail.getInitialProps = async (
+  context: NextPageContext & { client: AxiosInstance }
+) => {
+  const { hotelId } = context.query
+  const { data } = await context.client.get(`/hotels/${hotelId}`)
+
+  return { hotel: data, pageTitle: data.name }
 }
 
 export default HotelDetail

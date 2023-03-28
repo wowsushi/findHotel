@@ -18,4 +18,7 @@ export class CreateHotelDto {
 
   @IsString()
   checkOutTime: string
+
+  @IsArray()
+  facilities: number[]
 }

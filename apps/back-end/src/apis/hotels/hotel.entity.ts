@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { Room } from '../rooms/room.entity'
+import { Facility } from '../rooms/rooms.service'
 
 export interface Address {
   lat: number
@@ -31,6 +32,9 @@ export class Hotel {
 
   @Column('simple-array')
   pictures: string[]
+
+  @Column('simple-array')
+  facilities: number[]
 
   @OneToMany(() => Room, (room) => room.hotel, {
     cascade: true,

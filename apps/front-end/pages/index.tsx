@@ -7,12 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import * as yup from 'yup'
-import type { IFindHotels } from '../api/types/hotels'
+import { HOTEL_QUERY, HotelQuery } from '../api/types/hotels'
 
 const Index = () => {
   const router = useRouter()
   const [dateRange, setDateRange] = useState([null, null])
-  const schema: yup.ObjectSchema<IFindHotels> = yup.object().shape({
+  const schema: yup.ObjectSchema<HotelQuery> = yup.object().shape({
     area: yup.string(),
     startDate: yup.string(),
     endDate: yup.string(),
@@ -27,9 +27,9 @@ const Index = () => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<IFindHotels>({ resolver: yupResolver(schema) })
+  } = useForm<HotelQuery>({ resolver: yupResolver(schema) })
   const handleSearchHotels = handleSubmit((data) => {
-    sessionStorage.setItem('hotelQuery', JSON.stringify(data))
+    sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(data))
     router.push('/search')
   })
 

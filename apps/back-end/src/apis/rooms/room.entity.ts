@@ -40,6 +40,9 @@ export class Room {
   @Column()
   amount: number
 
+  @Column()
+  hasBreakfast: boolean
+
   @Column('simple-array')
   pictures: string[]
 

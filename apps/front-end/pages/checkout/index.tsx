@@ -1,106 +1,62 @@
-import { FC } from 'react'
-import { HotelProps } from '../search'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { Button, Input, Typography } from '@/components'
 import { utility } from '@findhotel/common'
 import { useRouter } from 'next/router'
+import { useFetch } from '@/hooks'
+import { EstimatedOrder } from '@/types/orders'
+import { HOTEL_QUERY } from '@/types/hotels'
 const { H3 } = Typography
-const fakeHotel = {
-  id: '1',
-  phone: '0286535353',
-  address: '台中南屯区向上路三段221號',
-  price: 2300,
-  name: '王子大飯店',
-  facilitices: [
-    {
-      type: 1,
-      name: '早餐',
-    },
-    {
-      type: 2,
-      name: '健身房',
-    },
-    {
-      type: 3,
-      name: '泳池',
-    },
-    {
-      type: 4,
-      name: '兒童遊戲室',
-    },
-  ],
-  pictures: [
-    'https://image-store.asiayo.com/bnb/38649/960xauto/desc_8MU7ew70K6OCFm.jpg',
-    'https://image-store.asiayo.com/bnb/25993/960xauto/desc_5WyvN3f4rVbMiz.jpg',
-    'https://image-store.asiayo.com/bnb/38649/370xauto/desc_aiSWIiLX3cBIPj.jpg',
-  ],
-  checkInTime: '14:00',
-  checkOutTime: '11:00',
-  rooms: [
-    {
-      id: '1',
-      name: '豪華雙人房',
-      people: 2,
-      price: 3300,
-      hasBreakfast: true,
-    },
-    {
-      id: '2',
-      name: '豪華單人房',
-      people: 1,
-      price: 2300,
-      hasBreakfast: false,
-    },
-  ],
-}
 
-const querysData = {
-  roomAmount: 2,
-  people: 2,
-  startDate: Date.now(),
-  endDate: Date.now() + 60 * 60 * 24 * 1000,
-  roomId: 1,
-}
-
-const fakeRoom = {
-  id: '2',
-  name: '豪華單人房',
-  people: 1,
-  price: 2300,
-  hasBreakfast: false,
-}
-
-type Props = {
-  hotel: HotelProps
-}
-const Checkout: FC<Props> = ({ hotel = fakeHotel }) => {
+const Checkout = () => {
   const router = useRouter()
-  const { startDate, endDate, roomAmount, people } = querysData
-  const night = dayjs(endDate).diff(dayjs(startDate), 'd')
-  const room = fakeRoom
+  const { doRequest } = useFetch()
+  const [order, setOrder] = useState<EstimatedOrder>()
+  useEffect(() => {
+    const hotelQuery = sessionStorage.getItem(HOTEL_QUERY)
+    if (hotelQuery) {
+      handleGetEstimatedOrder(JSON.parse(hotelQuery))
+    }
+  }, [])
 
   const handleBookRoom = () => {
     router.push('/complete')
   }
+
+  const handleGetEstimatedOrder = async (query) => {
+    const data = await doRequest({
+      url: '/orders/getEstimated',
+      params: query,
+    })
+    setOrder(data)
+  }
+
+  if (!order) return null
+  const people = order.adult + order.child
+
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col justify-center lg:flex-row lg:p-8 lg:gap-4 lg:items-start">
       <section className="lg:border border-slate-200 rounded-lg lg:bg-sky-100 lg:w-[300px]">
         <div className="bg-white px-4 py-2 mb-1 lg:rounded-t-lg">
-          <H3>{hotel.name}</H3>
+          <H3>{order.hotelName}</H3>
           <div className="text-sm text-slate-500">
             <p className="mb-2">
-              {roomAmount} 房，{room.name}
+              {order.room} 房，{order.roomName}
             </p>
             <p className="mb-2">
               <span>{people} 人</span>
               <span>，</span>
-              <span>含早餐</span>
+              <span>{order.adult} 大人</span>
+              <span>，</span>
+              <span>{order.child} 小孩</span>
+              <span>，</span>
+              <span>{order.hasBreakfast ? '含' : '不含'}早餐</span>
             </p>
             <p className="mb-2">
-              <span>{night} 晚，</span>
-              <span>{dayjs(startDate).format('YYYY/MM/DD(dd)')}</span>
+              <span>{order.night} 晚，</span>
+              <span>{dayjs(order.startDate).format('YYYY/MM/DD(dd)')}</span>
               <span> ~ </span>
-              <span>{dayjs(endDate).format('YYYY/MM/DD(dd)')}</span>
+              <span>{dayjs(order.endDate).format('YYYY/MM/DD(dd)')}</span>
             </p>
           </div>
         </div>
@@ -108,7 +64,7 @@ const Checkout: FC<Props> = ({ hotel = fakeHotel }) => {
         <div className="bg-sky-100 p-4 mb-1 flex justify-between">
           <span>總價（入住時支付）：</span>
           <span className="text-lg font-bold text-red-500">
-            ${utility.numberToCurrency(hotel.price)}
+            ${utility.numberToCurrency(order.price)}
           </span>
         </div>
       </section>

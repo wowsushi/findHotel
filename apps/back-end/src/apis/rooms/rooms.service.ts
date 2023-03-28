@@ -21,12 +21,19 @@ export class RoomsService {
 
     const room = this.roomRepo.create(body)
     room.hotel = hotel
+    room.hasBreakfast = Math.random() > 0.5
 
     return this.roomRepo.save(room)
   }
 
   getFacilities(facilityList: number[]): Facility[] {
     return facilityList.map((f) => facilities[f])
+  }
+
+  async findRoom(id: number) {
+    return await this.roomRepo.findOne({
+      where: { id },
+    })
   }
 }
 

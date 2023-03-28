@@ -2,7 +2,7 @@ POST http://localhost:3333/api/hotels
 content-type: application/json
 
 {
-  "phone": "0988888999",
+  "phone": "0988888990",
   "name": "王子大飯店",
   "address": "台中南屯区向上路三段221號",
   "pictures": [
@@ -11,7 +11,8 @@ content-type: application/json
     "https://image-store.asiayo.com/bnb/37530/960xauto/desc_QQeviRMlU6Y8Vr.jpg"
   ],
   "checkInTime": "14:00",
-  "checkOutTime": "11:00"
+  "checkOutTime": "11:00",
+  "facilities": [1,3,4]
 }
 
 ### find rooms by hotel

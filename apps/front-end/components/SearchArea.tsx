@@ -1,22 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { Button, DateRangePicker, Input } from '@/components'
-import type { IFindHotels } from '../api/types/hotels'
-import { useFetch } from '@/hooks'
-import { SearchContext } from '../pages/search'
+import type { HotelQuery } from '../api/types/hotels'
+import dayjs from 'dayjs'
 
 type Props = {
-  onSearch: (hotelQuery: IFindHotels) => Promise<void>
+  searchQuery: HotelQuery
+  onSearch: (hotelQuery: HotelQuery) => Promise<void>
 }
 
-export const SearchArea: FC<Props> = () => {
-  const { doRequest } = useFetch()
-  const { state, dispatch } = useContext(SearchContext)
+export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
+  const { area, startDate, endDate } = searchQuery
   const [dateRange, setDateRange] = useState([null, null])
   const [isShowSearchArea, setIsShowSearchArea] = useState(false)
-  const schema: yup.ObjectSchema<IFindHotels> = yup.object().shape({
+  const schema: yup.ObjectSchema<HotelQuery> = yup.object().shape({
     area: yup.string(),
     startDate: yup.string(),
     endDate: yup.string(),
@@ -24,38 +23,52 @@ export const SearchArea: FC<Props> = () => {
     child: yup.number(),
     room: yup.number(),
   })
-  const {
-    register,
-    handleSubmit: _handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm<IFindHotels>({ resolver: yupResolver(schema) })
+  const { register, handleSubmit, setValue, getValues } = useForm<HotelQuery>({
+    resolver: yupResolver(schema),
+    defaultValues: searchQuery,
+  })
 
   const handleToggleSearchArea = () => {
     setIsShowSearchArea(!isShowSearchArea)
   }
 
+  const renderDateRange = (
+    startDate: HotelQuery['startDate'],
+    endDate: HotelQuery['endDate']
+  ) => {
+    if (!startDate || !endDate) return '請選擇'
+
+    return `${dayjs(startDate).format('YYYY/MM/DD(dd)')} ~ ${dayjs(
+      endDate
+    ).format('YYYY/MM/DD(dd)')}`
+  }
+
+  const handleSearchHotels = handleSubmit((data) => {
+    setIsShowSearchArea(false)
+    !!onSearch && onSearch(data)
+  })
+
   return (
     <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 sticky top-[72px] lg:top-[88px] z-10">
       <div className="lg:hidden flex justify-between items-center p-2 bg-sky-200">
-        <p>2023/01/12 ~ 2023/01/13</p>
+        <p>{renderDateRange(startDate, endDate)}</p>
         <Button variant="primary" onClick={handleToggleSearchArea}>
           選擇
         </Button>
       </div>
 
-      <div
+      <form
         className={`bg-sky-200 rounded p-4 sticky top-[88px] lg:block ${
           isShowSearchArea ? 'block' : 'hidden'
         }`}
+        onSubmit={handleSearchHotels}
       >
         <fieldset className="mb-2">
           <Input
             name="area"
             label="旅遊地點"
             register={register('area')}
-            value="台北"
+            value={area}
           />
         </fieldset>
         <fieldset className="mb-2">
@@ -112,7 +125,7 @@ export const SearchArea: FC<Props> = () => {
         <Button variant="primary" type="submit" fullWidth={true}>
           搜尋
         </Button>
-      </div>
+      </form>
     </section>
   )
 }

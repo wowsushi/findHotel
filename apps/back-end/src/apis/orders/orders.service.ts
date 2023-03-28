@@ -1,16 +1,23 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import dayjs from 'dayjs'
 import { Repository } from 'typeorm'
-import { Room } from '../rooms/room.entity'
+import { HotelsService } from '../hotels/hotels.service'
+import { RoomsService } from '../rooms/rooms.service'
 import { User } from '../users/user.entity'
 import { CreateOrderDto } from './dtos/create-order.dto'
+import {
+  GetEstimatedOrderDto,
+  OGetEstimatedOrder,
+} from './dtos/get-esitmated-order-dto'
 import { Order, OrderStatus } from './order.entity'
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepo: Repository<Order>,
-    @InjectRepository(Room) private roomRepo: Repository<Room>
+    private hotelsService: HotelsService,
+    private roomsService: RoomsService
   ) {}
 
   async create(body: CreateOrderDto, user: User) {
@@ -29,7 +36,7 @@ export class OrdersService {
       throw new BadRequestException('Room already reserved')
     }
     const order = this.orderRepo.create(body)
-    const room = await this.roomRepo.findOne({ where: { id: roomId } })
+    const room = await this.roomsService.findRoom(roomId)
     const ONE_DAY = 60 * 60 * 24 * 1000
     const EXPIRED_TIMER = 15 * 60 * 1000
     const reservedDate = Math.floor(
@@ -52,5 +59,37 @@ export class OrdersService {
       .where('order.userId = :user', { user: user.id })
       .getMany()
     return orders
+  }
+
+  async getEstimatedOrder({
+    startDate,
+    endDate,
+    hotelId,
+    roomId,
+    ...rest
+  }: GetEstimatedOrderDto) {
+    const hotel = await this.hotelsService.findHotel(hotelId)
+    const room = await this.roomsService.findRoom(roomId)
+
+    if (!hotel || !room) {
+      throw new BadRequestException('Hotel or Room not found')
+    }
+
+    const night = dayjs(endDate).diff(dayjs(startDate), 'd')
+    const price = room.discountPrice * night
+    const estimated: OGetEstimatedOrder = {
+      ...rest,
+      startDate,
+      endDate,
+      hotelId,
+      roomId,
+      night,
+      price,
+      hotelName: hotel.name,
+      roomName: room.name,
+      hasBreakfast: room.hasBreakfast,
+    }
+
+    return estimated
   }
 }

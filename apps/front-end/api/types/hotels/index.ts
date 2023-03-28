@@ -1,10 +1,11 @@
-export interface IFindHotels {
+export interface HotelQuery {
   area: string
   startDate: string
   endDate: string
   adult: number
   child: number
   room: number
+  roomId: number
 }
 
 export interface OFindHotels {
@@ -23,3 +24,5 @@ export interface Facility {
   type: number
   name: string
 }
+
+export const HOTEL_QUERY = 'hotelQuery'

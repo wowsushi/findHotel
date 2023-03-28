@@ -58,7 +58,7 @@ export class HotelsService {
       )
       .getMany()
 
-    const hotels = _hotels.map(({ rooms, ...rest }) => {
+    const hotels = _hotels.map(({ rooms, facilities, ...rest }) => {
       const lowerestRoom = rooms.sort(
         (a, b) => a.discountPrice - b.discountPrice
       )[0]
@@ -66,7 +66,7 @@ export class HotelsService {
       return {
         ...rest,
         bestPrice: lowerestRoom.discountPrice,
-        facilities: this.roomsService.getFacilities(lowerestRoom.facilities),
+        facilities: this.roomsService.getFacilities(facilities),
       }
     })
     return hotels
@@ -78,7 +78,12 @@ export class HotelsService {
       relations: ['rooms'],
     })
 
-    return hotel.rooms
+    const rooms = hotel.rooms.map((room) => ({
+      ...room,
+      facilities: this.roomsService.getFacilities(room.facilities),
+    }))
+
+    return rooms
   }
 
   async findHotel(id: number) {
@@ -87,6 +92,9 @@ export class HotelsService {
       relations: ['rooms'],
     })
 
-    return hotel
+    return {
+      ...hotel,
+      facilities: this.roomsService.getFacilities(hotel.facilities),
+    }
   }
 }
