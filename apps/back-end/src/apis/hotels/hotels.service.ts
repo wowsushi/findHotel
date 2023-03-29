@@ -92,9 +92,6 @@ export class HotelsService {
       relations: ['rooms'],
     })
 
-    return {
-      ...hotel,
-      facilities: this.roomsService.getFacilities(hotel.facilities),
-    }
+    return hotel
   }
 }

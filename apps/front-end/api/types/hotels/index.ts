@@ -5,7 +5,7 @@ export interface HotelQuery {
   adult: number
   child: number
   room: number
-  roomId: number
+  roomId?: number
 }
 
 export interface OFindHotels {

@@ -1,7 +1,7 @@
-import { Facility } from '../hotels'
+import { Facility, OFindHotels } from '../hotels'
 
 export interface OFindRooms {
-  id: string
+  id: number
   type: number
   name: string
   defaultPrice: number
@@ -11,4 +11,5 @@ export interface OFindRooms {
   amount: number
   pictures: string[]
   hasBreakfast: boolean
+  hotel?: OFindHotels
 }

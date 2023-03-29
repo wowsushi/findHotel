@@ -1,6 +1,15 @@
 import { OrdersService } from './orders.service'
 import { CreateOrderDto } from './dtos/create-order.dto'
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Redirect,
+  UseGuards,
+} from '@nestjs/common'
 import { CurrentUser } from '../users/decorators/current-user.decorator'
 import { User } from '../users/user.entity'
 import { AuthGuard } from '../../guards/auth.guard'
@@ -14,7 +23,11 @@ export class OrdersController {
   @Post()
   async createOrder(@Body() body: CreateOrderDto, @CurrentUser() user: User) {
     const order = await this.ordersService.create(body, user)
-    return order
+    if (order) {
+      return { success: true, id: order.id }
+    }
+
+    return { success: false }
   }
 
   @Get('/getEstimated')
@@ -28,5 +41,12 @@ export class OrdersController {
     const orders = await this.ordersService.find(user)
 
     return orders
+  }
+
+  @Get(':orderId')
+  async getOrder(@Param('orderId') orderId: number, @CurrentUser() user: User) {
+    const order = await this.ordersService.findOne(orderId, user)
+
+    return order
   }
 }

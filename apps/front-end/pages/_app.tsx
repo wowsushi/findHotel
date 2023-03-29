@@ -4,8 +4,8 @@ import './styles.css'
 import Head from 'next/head'
 import dayjs from 'dayjs'
 import buildClient from '../api/build-client'
-import { HotelQuery, OFindHotels } from '@/types/hotels'
-import { createContext, Dispatch, useReducer } from 'react'
+import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
+import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react'
 require('dayjs/locale/zh-tw')
 
 dayjs.locale('zh-tw')
@@ -21,14 +21,7 @@ export type SearchReducerProps = {
 }
 
 export const initSearchState = {
-  searchQuery: {
-    area: '台北',
-    startDate: '',
-    endDate: '',
-    adult: 1,
-    child: 0,
-    room: 1,
-  },
+  searchQuery: undefined,
   hotels: [],
 }
 
@@ -59,6 +52,18 @@ function CustomApp({
     initSearchState
   )
 
+  useEffect(() => {
+    if (window.sessionStorage) {
+      const searchQuery = JSON.parse(sessionStorage.getItem(HOTEL_QUERY))
+      !!searchQuery && setSearchState({ searchQuery })
+    }
+  }, [])
+
+  const searchValues = useMemo(
+    () => ({ searchState, setSearchState }),
+    [searchState]
+  )
+
   return (
     <>
       <Head>
@@ -66,7 +71,7 @@ function CustomApp({
       </Head>
       <Nav currentUser={currentUser}></Nav>
       <main className="h-screen pt-[72px]">
-        <SearchContext.Provider value={{ searchState, setSearchState }}>
+        <SearchContext.Provider value={searchValues}>
           <Component {...pageProps} />
         </SearchContext.Provider>
 

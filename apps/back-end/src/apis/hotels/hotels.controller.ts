@@ -7,13 +7,17 @@ import {
   Post,
   Query,
 } from '@nestjs/common'
+import { RoomsService } from '../rooms/rooms.service'
 import { CreateHotelDto } from './dtos/create-hotel.dto'
 import { FindHotelsDto } from './dtos/find-hotels.dto'
 import { HotelsService } from './hotels.service'
 
 @Controller('hotels')
 export class HotelsController {
-  constructor(private hotelsService: HotelsService) {}
+  constructor(
+    private hotelsService: HotelsService,
+    private roomsService: RoomsService
+  ) {}
 
   @Post()
   async createHotel(@Body() body: CreateHotelDto) {
@@ -39,7 +43,10 @@ export class HotelsController {
   async findHotel(@Param('id') id: string) {
     const hotel = await this.hotelsService.findHotel(+id)
 
-    return hotel
+    return {
+      ...hotel,
+      facilities: this.roomsService.getFacilities(hotel.facilities),
+    }
   }
 
   @Post(':id')

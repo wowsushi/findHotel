@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { Room } from '../rooms/room.entity'
+import { Order } from '../orders/order.entity'
 import { Facility } from '../rooms/rooms.service'
 
 export interface Address {
@@ -40,4 +41,9 @@ export class Hotel {
     cascade: true,
   })
   rooms: Room[]
+
+  @OneToMany(() => Order, (order) => order.hotel, {
+    cascade: true,
+  })
+  orders: Order[]
 }

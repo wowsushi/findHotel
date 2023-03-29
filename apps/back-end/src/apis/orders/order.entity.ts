@@ -1,6 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { Room } from '../rooms/room.entity'
 import { User } from '../users/user.entity'
+import { Hotel } from '../hotels/hotel.entity'
+import { Expose } from 'class-transformer'
 
 export enum OrderStatus {
   Pending,
@@ -25,9 +27,6 @@ export class Order {
   @Column()
   price: number
 
-  @Column()
-  note: string
-
   @Column({
     type: 'enum',
     enum: OrderStatus,
@@ -36,13 +35,21 @@ export class Order {
   status: OrderStatus
 
   @Column()
-  people: number
+  adult: number
+
+  @Column()
+  child: number
+
+  @Column()
+  night: number
 
   @Column('simple-json')
   consumer: {
     firstName: string
     lastName: string
     phone: string
+    email: string
+    note: string
   }
 
   @ManyToOne(() => User, (user) => user.orders)
@@ -50,4 +57,7 @@ export class Order {
 
   @ManyToOne(() => Room, (room) => room.orders)
   room: Room
+
+  @ManyToOne(() => Hotel, (hotel) => hotel.orders)
+  hotel: Hotel
 }

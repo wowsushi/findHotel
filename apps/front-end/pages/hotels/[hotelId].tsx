@@ -28,7 +28,7 @@ type Props = {
   pageTitle: string
 }
 
-const HotelDetail: NextPage<Props> = ({ hotel }) => {
+const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
   const router = useRouter()
   const { doRequest } = useFetch()
   const [rooms, setRooms] = useState<OFindRooms[]>([])
@@ -48,7 +48,7 @@ const HotelDetail: NextPage<Props> = ({ hotel }) => {
       hotelId: +router.query.hotelId,
     }
     sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
-    debugger
+
     router.push('/checkout')
   }
 

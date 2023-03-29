@@ -11,7 +11,7 @@ type Props = {
   onSearch: (hotelQuery: HotelQuery) => Promise<void>
 }
 
-export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
+export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
   const { area, startDate, endDate } = searchQuery
   const [dateRange, setDateRange] = useState([null, null])
   const [isShowSearchArea, setIsShowSearchArea] = useState(false)

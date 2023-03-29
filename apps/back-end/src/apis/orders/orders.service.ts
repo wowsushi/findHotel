@@ -37,16 +37,17 @@ export class OrdersService {
     }
     const order = this.orderRepo.create(body)
     const room = await this.roomsService.findRoom(roomId)
-    const ONE_DAY = 60 * 60 * 24 * 1000
+    const hotel = await this.hotelsService.findHotel(room.hotel.id)
     const EXPIRED_TIMER = 15 * 60 * 1000
-    const reservedDate = Math.floor(
-      (new Date(endDate).getTime() - new Date(startDate).getTime()) / ONE_DAY
-    )
-    order.price = room.discountPrice * reservedDate
+    const night = dayjs(endDate).diff(dayjs(startDate), 'd')
+
+    order.price = room.discountPrice * night
     order.expiredAt = new Date(new Date().getTime() + EXPIRED_TIMER)
-    order.status = OrderStatus.Pending
+    order.status = OrderStatus.Completed
     order.user = user
     order.room = room
+    order.night = night
+    order.hotel = hotel
 
     return this.orderRepo.save(order)
   }
@@ -55,10 +56,31 @@ export class OrdersService {
     const orders = await this.orderRepo
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.room', 'room')
-      .leftJoinAndSelect('room.hotel', 'hotel')
+      .leftJoin('room.hotel', 'hotel')
+      .addSelect(['hotel.name'])
       .where('order.userId = :user', { user: user.id })
       .getMany()
     return orders
+  }
+
+  async findOne(orderId: number, user: User) {
+    const _order = await this.orderRepo
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.room', 'room')
+      .leftJoinAndSelect('order.hotel', 'hotel')
+      .where('order.userId = :user', { user: user.id })
+      .where('order.id = :orderId', { orderId })
+      .getOneOrFail()
+
+    const order = {
+      ..._order,
+      hotel: {
+        ..._order.hotel,
+        facilities: this.roomsService.getFacilities(_order.room.facilities),
+      },
+    }
+
+    return order
   }
 
   async getEstimatedOrder({

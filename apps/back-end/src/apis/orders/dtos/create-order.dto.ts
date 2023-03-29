@@ -7,7 +7,9 @@ import {
   IsNumber,
   IsObject,
   IsString,
+  IsEmail,
   ValidateNested,
+  IsOptional,
 } from 'class-validator'
 
 class ConsumerDto {
@@ -19,6 +21,13 @@ class ConsumerDto {
 
   @IsString()
   lastName: string
+
+  @IsEmail()
+  email: string
+
+  @IsString()
+  @IsOptional()
+  note: string
 }
 export class CreateOrderDto {
   @Transform(({ value }) => new Date(value))
@@ -32,11 +41,11 @@ export class CreateOrderDto {
   @IsNumber()
   roomId: number
 
-  @IsString()
-  note: string
+  @IsNumber()
+  child: number
 
   @IsNumber()
-  people: number
+  adult: number
 
   @IsDefined()
   @IsNotEmptyObject()

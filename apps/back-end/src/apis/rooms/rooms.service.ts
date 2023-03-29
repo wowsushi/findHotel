@@ -33,6 +33,7 @@ export class RoomsService {
   async findRoom(id: number) {
     return await this.roomRepo.findOne({
       where: { id },
+      relations: ['hotel'],
     })
   }
 }
