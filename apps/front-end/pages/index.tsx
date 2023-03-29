@@ -11,7 +11,7 @@ import { HOTEL_QUERY, HotelQuery } from '../api/types/hotels'
 
 const Index = () => {
   const router = useRouter()
-  const [dateRange, setDateRange] = useState([null, null])
+  const [, setDateRange] = useState([null, null])
   const schema: yup.ObjectSchema<HotelQuery> = yup.object().shape({
     area: yup.string(),
     startDate: yup.string(),
@@ -21,27 +21,17 @@ const Index = () => {
     room: yup.number(),
   })
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm<HotelQuery>({ resolver: yupResolver(schema) })
+  const { register, handleSubmit, setValue, getValues } = useForm<HotelQuery>({
+    resolver: yupResolver(schema),
+  })
   const handleSearchHotels = handleSubmit((data) => {
     sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(data))
     router.push('/search')
   })
 
   return (
-    <div
-      className="bg-cover bg-center h-full py-8 lg:py-32"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1521747116042-5a810fda9664')",
-      }}
-    >
-      <div className="container mx-auto max-w-lg px-4">
+    <div className="before:bg-cover before:bg-center h-full py-8 lg:py-32 before:absolute before:inset-0 bg-no-repeat before:blur-[2px] before:brightness-75 before:bg-[url('https://images.unsplash.com/photo-1679939099392-efa3c55c2b71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80')]">
+      <div className="container mx-auto max-w-lg px-4 relative module-inside">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 lg:mb-10">
           即刻預定非凡旅程
         </h1>
@@ -53,11 +43,12 @@ const Index = () => {
                 label="旅遊地點"
                 register={register('area')}
                 value="台北"
+                invertTextColor
               />
             </fieldset>
             <fieldset className="md:w-1/2 px-3 mb-6">
               <label
-                className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2"
+                className="block uppercase tracking-wide text-white text-sm font-bold mb-2"
                 htmlFor="grid-start-date"
               >
                 入住日期
@@ -80,6 +71,7 @@ const Index = () => {
                 name="adult"
                 label="大人"
                 register={register('adult')}
+                invertTextColor
               >
                 {Array(5)
                   .fill(null)
@@ -94,6 +86,7 @@ const Index = () => {
                 name="child"
                 label="小孩"
                 register={register('child')}
+                invertTextColor
               >
                 {Array(6)
                   .fill(null)
@@ -108,6 +101,7 @@ const Index = () => {
                 name="room"
                 label="房間"
                 register={register('room')}
+                invertTextColor
               >
                 {Array(5)
                   .fill(null)

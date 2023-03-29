@@ -2,11 +2,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-import { Input, Button, Modal, Portal } from '@/components'
+import { Input, Button, Modal } from '@/components'
 import { useFetch } from '@/hooks'
 import { useRouter } from 'next/router'
-import ReactDOM from 'react-dom'
-import { createElement } from 'react'
+
 type FormValues = {
   email: string
   password: string

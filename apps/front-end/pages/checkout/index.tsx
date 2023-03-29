@@ -41,9 +41,13 @@ const Checkout = () => {
   } = useForm<FormValues>({ resolver: yupResolver(schema) })
 
   useEffect(() => {
-    if (searchQuery) {
+    if (!searchQuery) return
+    const { startDate, endDate, adult, room, roomId } = searchQuery
+
+    if (!!startDate && !!endDate && !!adult && !!room && !!roomId) {
       handleGetEstimatedOrder(searchQuery)
-      return
+    } else {
+      Modal.alert('查無訂單資訊', () => router.push('/'))
     }
   }, [searchQuery])
 

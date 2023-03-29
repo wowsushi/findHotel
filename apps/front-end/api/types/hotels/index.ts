@@ -5,6 +5,9 @@ export interface HotelQuery {
   adult: number
   child: number
   room: number
+}
+
+export interface SearchQuery extends HotelQuery {
   roomId?: number
 }
 

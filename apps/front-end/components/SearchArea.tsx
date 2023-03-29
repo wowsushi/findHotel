@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Button, DateRangePicker, Input } from '@/components'
 import type { HotelQuery } from '../api/types/hotels'
 import dayjs from 'dayjs'
@@ -11,9 +11,8 @@ type Props = {
   onSearch: (hotelQuery: HotelQuery) => Promise<void>
 }
 
-export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
-  const { area, startDate, endDate } = searchQuery
-  const [dateRange, setDateRange] = useState([null, null])
+export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
+  const [, setDateRange] = useState([null, null])
   const [isShowSearchArea, setIsShowSearchArea] = useState(false)
   const schema: yup.ObjectSchema<HotelQuery> = yup.object().shape({
     area: yup.string(),
@@ -23,10 +22,21 @@ export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
     child: yup.number(),
     room: yup.number(),
   })
+
   const { register, handleSubmit, setValue, getValues } = useForm<HotelQuery>({
     resolver: yupResolver(schema),
     defaultValues: searchQuery,
   })
+
+  useEffect(() => {
+    if (!searchQuery) return
+
+    Object.entries(searchQuery).forEach(([key, value]) => {
+      if (key) {
+        setValue(key as keyof HotelQuery, value)
+      }
+    })
+  }, [searchQuery])
 
   const handleToggleSearchArea = () => {
     setIsShowSearchArea(!isShowSearchArea)
@@ -51,7 +61,7 @@ export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
   return (
     <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 sticky top-[72px] lg:top-[88px] z-10">
       <div className="lg:hidden flex justify-between items-center p-2 bg-sky-200">
-        <p>{renderDateRange(startDate, endDate)}</p>
+        <p>{renderDateRange(searchQuery?.startDate, searchQuery?.endDate)}</p>
         <Button variant="primary" onClick={handleToggleSearchArea}>
           選擇
         </Button>
@@ -68,15 +78,18 @@ export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
             name="area"
             label="旅遊地點"
             register={register('area')}
-            value={area}
+            value={searchQuery?.area}
           />
         </fieldset>
         <fieldset className="mb-2">
           <DateRangePicker
             label="住房日期"
-            startDate={getValues('startDate')}
-            endDate={getValues('endDate')}
+            startDate={
+              getValues('startDate') && new Date(getValues('startDate'))
+            }
+            endDate={getValues('endDate') && new Date(getValues('endDate'))}
             onChange={(update) => {
+              console.log(update)
               setValue('startDate', update[0])
               setValue('endDate', update[1])
               setDateRange(update)
@@ -84,7 +97,12 @@ export const SearchArea: FC<Props> = ({ searchQuery = {}, onSearch }) => {
           />
         </fieldset>
         <fieldset className="mb-2">
-          <Input label="房間" name="room" type="select">
+          <Input
+            label="房間"
+            name="room"
+            type="select"
+            register={register('room')}
+          >
             {Array(5)
               .fill(null)
               .map((_, i) => (

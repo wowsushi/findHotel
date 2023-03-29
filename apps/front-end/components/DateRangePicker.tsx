@@ -4,8 +4,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
   label: string
-  startDate: string
-  endDate: string
+  startDate: Date
+  endDate: Date
   onChange: (update: [string, string]) => void
 }
 

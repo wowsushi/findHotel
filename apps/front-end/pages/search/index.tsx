@@ -1,14 +1,6 @@
 import { HotelCard } from '../../components/HotelCard'
 import { SearchArea } from '@/components'
-import {
-  useReducer,
-  createContext,
-  useEffect,
-  Dispatch,
-  FC,
-  useContext,
-  useState,
-} from 'react'
+import { useEffect, FC, useContext, useState } from 'react'
 import { useFetch } from '@/hooks'
 import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { SearchContext } from '../_app'

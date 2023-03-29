@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import {
   AspectRatio,
@@ -21,6 +21,7 @@ import { SearchContext } from '../_app'
 import { OFindRooms } from '@/types/rooms'
 import { NextPage, NextPageContext } from 'next'
 import { AxiosInstance } from 'axios'
+import dayjs from 'dayjs'
 const { H3, H4, Text1 } = Typography
 
 type Props = {
@@ -41,29 +42,35 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
     }
   }, [searchQuery])
 
-  const handleBookRoom = (roomId: number) => {
-    const query = {
-      ...searchQuery,
-      roomId,
-      hotelId: +router.query.hotelId,
-    }
-    sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
-
-    router.push('/checkout')
-  }
-
   const handleSerachRoom = async (query: HotelQuery) => {
     const hotelId = router.query.hotelId
     const rooms = await doRequest({
-      url: '/hotels/findRooms',
+      url: '/rooms/findRooms',
       method: 'get',
       params: {
+        ...query,
         hotelId,
       },
     })
 
     setSearchState({ searchQuery: query })
     setRooms(rooms)
+  }
+
+  const handleBookRoom = (roomId: number) => {
+    const startDate = dayjs(searchQuery.startDate).toISOString()
+    const endDate = dayjs(searchQuery.endDate).toISOString()
+    const query = {
+      ...searchQuery,
+      roomId,
+      hotelId: +router.query.hotelId,
+      startDate,
+      endDate,
+    }
+    sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
+    setSearchState({ searchQuery: query })
+
+    router.push('/checkout')
   }
 
   return (
@@ -192,42 +199,46 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
           <section className="pt-4">
             <H3>房型</H3>
             <ul className="mb-4 flex flex-col xl:flex-row gap-4">
-              {rooms.map((room) => (
-                <li
-                  className="rounded-lg border border-slate-400 min-h-[130px] flex justify-between shadow-md xl:w-1/2"
-                  key={room.id}
-                >
-                  <div className="w-2/3 border-r border-r-slate-400 p-6">
-                    <H4 className="text-xl font-medium mb-2">{room.name}</H4>
-                    {room.hasBreakfast ? (
-                      <p className="text-red-500 mb-2">含早餐</p>
-                    ) : (
-                      <Text1 className="mb-2 line-through">不含早餐</Text1>
-                    )}
-                    <p className="text-green-500 text-sm flex items-center">
-                      <ExclamationCircleIcon
-                        className="h-5 w-5 text-green-500 mr-1"
-                        aria-hidden="true"
-                      />
-                      免費取消
-                    </p>
-                  </div>
-                  <div className="w-1/3 flex flex-col p-2 justify-center items-center">
-                    <span className="text-xs">2人 / 2房 / 1晚</span>
-                    <span className="text-red-500 text-2xl font-bold mb-2">
-                      ${utility.numberToCurrency(room.discountPrice)}
-                    </span>
-                    <Button
-                      variant="primary"
-                      fullWidth={true}
-                      className="md:w-1/2"
-                      onClick={() => handleBookRoom(room.id)}
+              {rooms.length > 0
+                ? rooms.map((room) => (
+                    <li
+                      className="rounded-lg border border-slate-400 min-h-[130px] flex justify-between shadow-md xl:w-1/2"
+                      key={room.id}
                     >
-                      預定
-                    </Button>
-                  </div>
-                </li>
-              ))}
+                      <div className="w-2/3 border-r border-r-slate-400 p-6">
+                        <H4 className="text-xl font-medium mb-2">
+                          {room.name}
+                        </H4>
+                        {room.hasBreakfast ? (
+                          <p className="text-red-500 mb-2">含早餐</p>
+                        ) : (
+                          <Text1 className="mb-2 line-through">不含早餐</Text1>
+                        )}
+                        <p className="text-green-500 text-sm flex items-center">
+                          <ExclamationCircleIcon
+                            className="h-5 w-5 text-green-500 mr-1"
+                            aria-hidden="true"
+                          />
+                          免費取消
+                        </p>
+                      </div>
+                      <div className="w-1/3 flex flex-col p-2 justify-center items-center">
+                        <span className="text-xs">2人 / 2房 / 1晚</span>
+                        <span className="text-red-500 text-2xl font-bold mb-2">
+                          ${utility.numberToCurrency(room.discountPrice)}
+                        </span>
+                        <Button
+                          variant="primary"
+                          fullWidth={true}
+                          className="md:w-1/2"
+                          onClick={() => handleBookRoom(room.id)}
+                        >
+                          預定
+                        </Button>
+                      </div>
+                    </li>
+                  ))
+                : '暫無合適房型'}
             </ul>
           </section>
 

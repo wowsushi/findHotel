@@ -4,14 +4,14 @@ import './styles.css'
 import Head from 'next/head'
 import dayjs from 'dayjs'
 import buildClient from '../api/build-client'
-import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
+import { SearchQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react'
 require('dayjs/locale/zh-tw')
 
 dayjs.locale('zh-tw')
 
 export type SearchState = {
-  searchQuery: HotelQuery
+  searchQuery: SearchQuery
   hotels: OFindHotels[]
 }
 
@@ -35,10 +35,12 @@ export const SearchContext = createContext<SearchReducerProps>({
 const searchReducer = (
   prevState: SearchState,
   updatedProperty: Partial<SearchState>
-) => ({
-  ...prevState,
-  ...updatedProperty,
-})
+) => {
+  return {
+    ...prevState,
+    ...updatedProperty,
+  }
+}
 
 function CustomApp({
   Component,
