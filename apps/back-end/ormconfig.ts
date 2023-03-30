@@ -18,13 +18,13 @@ const dbConfig = {
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
-      type: 'mysql',
-      host: 'localhost',
-      port: 3307,
-      username: 'root',
-      password: 'root',
+      type: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: process.env.DB_USER_NAME,
+      password: process.env.DB_PASSWORD,
       synchronize: true,
-      database: 'findhotel',
+      database: process.env.DB_DATABASE_NAME,
       entities: [User, Report, Room, Hotel, Order],
       // entities: [join(__dirname, './**/*.entity{.ts,.js}')]
     })
