@@ -7,7 +7,7 @@ type RequestProps = {
 } & AxiosRequestConfig
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3333/api',
+  baseURL: `${process.env.NX_BASE_URL}/api`,
   withCredentials: true,
 })
 

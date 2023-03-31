@@ -5,14 +5,14 @@ const buildClient = ({ req }) => {
     // We are on the server
 
     return axios.create({
-      baseURL: 'http://localhost:3333/api',
+      baseURL: `${process.env.NX_BASE_URL}/api`,
       headers: req.headers,
       withCredentials: true,
     })
   } else {
     // We must be on the browser
     return axios.create({
-      baseURL: 'http://localhost:3333/api',
+      baseURL: `${process.env.NX_BASE_URL}/api`,
       withCredentials: true,
     })
   }
