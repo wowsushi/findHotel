@@ -17,7 +17,7 @@ spec:
           image: betty713/findhotel
           env:
             - name: NX_BASE_URL
-              value: 'http://www.find-hotel.online'
+              value: '/api'
 
 ---
 apiVersion: v1
