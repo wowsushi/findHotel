@@ -6,7 +6,7 @@ const buildClient = ({ req }) => {
     // We are on the server
     console.log(req.headers)
     return axios.create({
-      baseURL: process.env.NX_BASE_URL,
+      baseURL: 'http://www.find-hotel.online/api',
       // headers: req.headers,
       withCredentials: true,
     })
