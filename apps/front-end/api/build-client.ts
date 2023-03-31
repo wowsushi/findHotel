@@ -1,12 +1,13 @@
 import axios from 'axios'
 
 const buildClient = ({ req }) => {
+  console.log('host', process.env.NX_BASE_URL)
   if (typeof window === 'undefined') {
     // We are on the server
-
+    console.log(req.headers)
     return axios.create({
       baseURL: `${process.env.NX_BASE_URL}/api`,
-      headers: req.headers,
+      // headers: req.headers,
       withCredentials: true,
     })
   } else {
