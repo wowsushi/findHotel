@@ -7,7 +7,7 @@ const buildClient = ({ req }) => {
     console.log(req.headers)
     return axios.create({
       baseURL: 'http://www.find-hotel.online/api',
-      // headers: req.headers,
+      headers: req.headers,
       withCredentials: true,
     })
   } else {
