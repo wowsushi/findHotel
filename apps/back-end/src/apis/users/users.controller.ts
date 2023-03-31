@@ -32,7 +32,7 @@ export class UsersController {
 
   @Get('/whoami')
   whoAmI(@CurrentUser() user: User) {
-    return user
+    return user || {}
   }
 
   @Post('/signout')
