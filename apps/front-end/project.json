@@ -32,10 +32,12 @@
       "configurations": {
         "development": {
           "buildTarget": "front-end:build:development",
+          "hostname": "0.0.0.0",
           "dev": true
         },
         "production": {
           "buildTarget": "front-end:build:production",
+          "hostname": "0.0.0.0",
           "dev": false,
           "hmr": false
         }
