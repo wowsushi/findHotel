@@ -38,7 +38,7 @@ const Search: FC = () => {
     </div>
   )
 }
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   return {
     props: {
       pageTitle: '現在就預訂飯店！',

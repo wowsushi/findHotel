@@ -76,8 +76,6 @@ function CustomApp({
         <SearchContext.Provider value={searchValues}>
           <Component {...pageProps} />
         </SearchContext.Provider>
-
-        <div id="portal-root"></div>
       </main>
     </>
   )
