@@ -83,8 +83,8 @@ function CustomApp({
 
 CustomApp.getInitialProps = async (appContext) => {
   const client = buildClient(appContext.ctx)
-  const { data } = await client.get('/auth/whoami')
-
+  // const { data } = await client.get('/auth/whoami')
+  const data = {}
   let pageProps = {}
 
   if (appContext.Component.getInitialProps) {
