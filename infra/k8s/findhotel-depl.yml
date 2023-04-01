@@ -16,7 +16,9 @@ spec:
         - name: findhotel
           image: betty713/findhotel
           env:
-            - name: NX_BASE_URL
+            - name: NX_BASE_URL_SERVER
+              value: 'http://localhost:3333/api'
+            - name: NX_BASE_URL_CLIENT
               value: '/api'
 
 ---
