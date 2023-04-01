@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import buildClient from '../api/build-client'
 import { SearchQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react'
-import axios from 'axios'
 require('dayjs/locale/zh-tw')
 
 dayjs.locale('zh-tw')
@@ -84,10 +83,7 @@ function CustomApp({
 
 CustomApp.getInitialProps = async (appContext) => {
   const client = buildClient(appContext.ctx)
-  const { data } = await axios.get(
-    'http://www.find-hotel.online/api/auth/whoami'
-  )
-
+  const { data } = await client.get('/auth/whoami')
   let pageProps = {}
 
   if (appContext.Component.getInitialProps) {

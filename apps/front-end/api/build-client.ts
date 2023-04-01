@@ -1,6 +1,12 @@
 import axios from 'axios'
 
 const buildClient = ({ req }) => {
+  delete process.env['http_proxy']
+  delete process.env['HTTP_PROXY']
+
+  delete process.env['https_proxy']
+
+  delete process.env['HTTPS_PROXY']
   console.log('host', process.env.NX_BASE_URL)
   if (typeof window === 'undefined') {
     // We are on the server
