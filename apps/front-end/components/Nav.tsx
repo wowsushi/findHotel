@@ -1,32 +1,29 @@
 import { useFetch } from '@/hooks'
 import { BuildingOffice2Icon } from '@heroicons/react/20/solid'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useContext } from 'react'
+import { GlobalContext } from '../pages/_app'
 import { Button } from './Button'
 
-type CurrentUser = {
-  id: number
-  email: string
-}
-
-type Props = {
-  currentUser: CurrentUser
-}
-export const Nav: FC<PropsWithChildren<Props>> = ({
-  currentUser,
-  ...props
-}) => {
+export const Nav: FC<PropsWithChildren> = () => {
   const router = useRouter()
   const { doRequest } = useFetch()
+  const { globalState, setGlobalState } = useContext(GlobalContext)
   const handleLogOut = async () => {
     await doRequest({
       url: '/auth/signout',
       method: 'post',
-    })
+      onSuccess: async () => {
+        if (globalState.needAuth) {
+          await router.push('/')
+          setGlobalState({ currentUser: null })
+          return
+        }
 
-    router.reload()
+        router.reload()
+      },
+    })
   }
   const isShowLogin = !router.pathname.includes('login')
   return (
@@ -45,7 +42,7 @@ export const Nav: FC<PropsWithChildren<Props>> = ({
               FINDHOTEL
             </Link>
             <div className="flex gap-4 items-center">
-              {currentUser ? (
+              {globalState.currentUser ? (
                 <>
                   {/* 你好 {currentUser.email} */}
                   <Button variant="primary" onClick={handleLogOut}>
@@ -55,7 +52,9 @@ export const Nav: FC<PropsWithChildren<Props>> = ({
               ) : (
                 isShowLogin && (
                   <Link
-                    href="/login"
+                    href={`/login?returnUrl=${encodeURIComponent(
+                      router.asPath
+                    )}`}
                     className="bg-sky-500 text-white py-2 px-4 rounded"
                   >
                     登入

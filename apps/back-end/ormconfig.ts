@@ -38,6 +38,16 @@ switch (process.env.NODE_ENV) {
     })
     break
   case 'production':
+    Object.assign(dbConfig, {
+      type: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: process.env.DB_USER_NAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE_NAME,
+      entities: [User, Report, Room, Hotel, Order],
+      // entities: [join(__dirname, './**/*.entity{.ts,.js}')]
+    })
     break
   default:
     throw new Error('unknown environment')

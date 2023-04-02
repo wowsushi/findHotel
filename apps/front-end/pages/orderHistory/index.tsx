@@ -1,4 +1,5 @@
 import { Typography } from '@/components'
+import { withAuth } from '@/hoc'
 import { Order } from '@/types/orders'
 import { utility } from '@findhotel/common'
 import { AxiosInstance } from 'axios'
@@ -49,4 +50,4 @@ OrderHistory.getInitialProps = async (
   return { model: data, pageTitle: '訂單查詢' }
 }
 
-export default OrderHistory
+export default withAuth(OrderHistory)

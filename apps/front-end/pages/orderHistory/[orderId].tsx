@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import { AxiosInstance } from 'axios'
 import { NextPage, NextPageContext } from 'next'
 import { Order } from '@/types/orders'
+import { withAuth } from '@/hoc'
 const { H2, H3, H4, Text1 } = Typography
 
 type Props = {
@@ -128,4 +129,4 @@ OrderHistoryDetail.getInitialProps = async (
   return { model: data, pageTitle: '訂房明細' }
 }
 
-export default OrderHistoryDetail
+export default withAuth(OrderHistoryDetail)

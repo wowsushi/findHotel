@@ -9,7 +9,8 @@ import { EstimatedOrder } from '@/types/orders'
 import { HOTEL_QUERY } from '@/types/hotels'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { SearchContext } from '../_app'
+import { GlobalContext } from '../_app'
+import { withAuth } from '@/hoc'
 const { H3 } = Typography
 
 type FormValues = {
@@ -30,7 +31,7 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
 const Checkout = () => {
   const router = useRouter()
   const { doRequest } = useFetch()
-  const { searchState } = useContext(SearchContext)
+  const { globalState: searchState } = useContext(GlobalContext)
   const { searchQuery } = searchState
   const [order, setOrder] = useState<EstimatedOrder>()
 
@@ -159,7 +160,7 @@ const Checkout = () => {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req, res }) {
   return {
     props: {
       pageTitle: '預訂房間',
@@ -167,4 +168,4 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default Checkout
+export default withAuth(Checkout)

@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { Button, Input } from '@/components'
-import './index.module.css'
+import { Button, Input, DateRangePicker } from '@/components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
@@ -47,17 +44,13 @@ const Index = () => {
               />
             </fieldset>
             <fieldset className="md:w-1/2 px-3 mb-6">
-              <label
-                className="block uppercase tracking-wide text-white text-sm font-bold mb-2"
-                htmlFor="grid-start-date"
-              >
-                入住日期
-              </label>
-              <DatePicker
-                className="mt-2 mb-1 relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
-                selectsRange={true}
-                startDate={getValues('startDate')}
-                endDate={getValues('endDate')}
+              <DateRangePicker
+                startDate={
+                  getValues('startDate') && new Date(getValues('startDate'))
+                }
+                endDate={getValues('endDate') && new Date(getValues('endDate'))}
+                label="入住日期"
+                invertTextColor
                 onChange={(update) => {
                   setValue('startDate', update[0])
                   setValue('endDate', update[1])

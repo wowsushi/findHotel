@@ -6,35 +6,31 @@ import dayjs from 'dayjs'
 import buildClient from '../api/build-client'
 import { SearchQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react'
+import { CurrentUser } from '@/types/users'
 require('dayjs/locale/zh-tw')
 
 dayjs.locale('zh-tw')
 
-export type SearchState = {
+export type GlobalState = {
   searchQuery: SearchQuery
-  hotels: OFindHotels[]
+  currentUser: CurrentUser
+  needAuth: boolean
 }
 
-export type SearchReducerProps = {
-  searchState: SearchState
-  setSearchState: Dispatch<Partial<SearchState>>
+export type GlobalReducerProps = {
+  globalState?: GlobalState
+  setGlobalState: Dispatch<Partial<GlobalState>>
 }
 
-export const initSearchState = {
-  searchQuery: undefined,
-  hotels: [],
-}
-
-export const SearchContext = createContext<SearchReducerProps>({
-  searchState: initSearchState,
-  setSearchState: () => {
-    throw new Error('SearchContext not difined')
+export const GlobalContext = createContext<GlobalReducerProps>({
+  setGlobalState: () => {
+    throw new Error('GlobalContext not defined')
   },
 })
 
-const searchReducer = (
-  prevState: SearchState,
-  updatedProperty: Partial<SearchState>
+const globalReducer = (
+  prevState: GlobalState,
+  updatedProperty: Partial<GlobalState>
 ) => {
   return {
     ...prevState,
@@ -46,24 +42,29 @@ function CustomApp({
   Component,
   pageProps,
   currentUser,
-}: AppProps & { currentUser: any }) {
+}: AppProps & { currentUser: CurrentUser }) {
   const { pageTitle } = pageProps
   const title = pageTitle ? `${pageTitle} | FINDHOTEL` : 'FINDHOTEL'
-  const [searchState, setSearchState] = useReducer(
-    searchReducer,
-    initSearchState
+  const initGlobalState = {
+    searchQuery: undefined,
+    currentUser,
+    needAuth: false,
+  }
+  const [globalState, setGlobalState] = useReducer(
+    globalReducer,
+    initGlobalState
   )
 
   useEffect(() => {
     if (window.sessionStorage) {
       const searchQuery = JSON.parse(sessionStorage.getItem(HOTEL_QUERY))
-      !!searchQuery && setSearchState({ searchQuery })
+      !!searchQuery && setGlobalState({ searchQuery })
     }
   }, [])
 
   const searchValues = useMemo(
-    () => ({ searchState, setSearchState }),
-    [searchState]
+    () => ({ globalState, setGlobalState }),
+    [globalState]
   )
 
   return (
@@ -71,19 +72,27 @@ function CustomApp({
       <Head>
         <title>{title}</title>
       </Head>
-      <Nav currentUser={currentUser}></Nav>
-      <main className="h-screen pt-[72px]">
-        <SearchContext.Provider value={searchValues}>
+      <GlobalContext.Provider value={searchValues}>
+        <Nav></Nav>
+        <main className="h-screen pt-[72px]">
           <Component {...pageProps} />
-        </SearchContext.Provider>
-      </main>
+        </main>
+      </GlobalContext.Provider>
     </>
   )
 }
 
 CustomApp.getInitialProps = async (appContext) => {
   const client = buildClient(appContext.ctx)
-  const { data } = await client.get('/auth/whoami')
+
+  const getUserInfo = async () => {
+    if (typeof window === 'undefined') {
+      const res = await client.get('/auth/whoami')
+      return res.data
+    }
+    return null
+  }
+
   let pageProps = {}
 
   if (appContext.Component.getInitialProps) {
@@ -95,7 +104,7 @@ CustomApp.getInitialProps = async (appContext) => {
 
   return {
     pageProps,
-    currentUser: data,
+    currentUser: await getUserInfo(),
   }
 }
 

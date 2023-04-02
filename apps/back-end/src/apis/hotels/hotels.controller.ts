@@ -27,7 +27,6 @@ export class HotelsController {
 
   @Get()
   async getHotels(@Query() query: FindHotelsDto, @Body() body) {
-    console.log('body', body)
     const hotels = await this.hotelsService.findAvailableHotels(query)
     return hotels
   }

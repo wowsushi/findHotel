@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Typography } from '@/components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { withAuth } from '@/hoc'
 
 const { Text1 } = Typography
 
@@ -39,4 +40,4 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default Complete
+export default withAuth(Complete)

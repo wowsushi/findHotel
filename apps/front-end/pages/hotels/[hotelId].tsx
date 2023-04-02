@@ -17,7 +17,7 @@ import { utility } from '@findhotel/common'
 import { useRouter } from 'next/router'
 import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { useFetch } from '@/hooks'
-import { SearchContext } from '../_app'
+import { GlobalContext } from '../_app'
 import { OFindRooms } from '@/types/rooms'
 import { NextPage, NextPageContext } from 'next'
 import { AxiosInstance } from 'axios'
@@ -33,16 +33,17 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
   const router = useRouter()
   const { doRequest } = useFetch()
   const [rooms, setRooms] = useState<OFindRooms[]>([])
-  const { searchState, setSearchState } = useContext(SearchContext)
+  const { globalState: searchState, setGlobalState: setSearchState } =
+    useContext(GlobalContext)
   const { searchQuery } = searchState
 
   useEffect(() => {
     if (searchQuery) {
-      handleSerachRoom(searchQuery)
+      handleSearchRoom(searchQuery)
     }
   }, [searchQuery])
 
-  const handleSerachRoom = async (query: HotelQuery) => {
+  const handleSearchRoom = async (query: HotelQuery) => {
     const hotelId = router.query.hotelId
     const rooms = await doRequest({
       url: '/rooms/findRooms',
@@ -75,7 +76,7 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
 
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
-      <SearchArea searchQuery={searchQuery} onSearch={handleSerachRoom} />
+      <SearchArea searchQuery={searchQuery} onSearch={handleSearchRoom} />
       <div className="overflow-hidden">
         <h1 className="text-3xl font-bold m-4">{hotel.name}</h1>
         <Slider className="lg:hidden">

@@ -89,7 +89,6 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
             }
             endDate={getValues('endDate') && new Date(getValues('endDate'))}
             onChange={(update) => {
-              console.log(update)
               setValue('startDate', update[0])
               setValue('endDate', update[1])
               setDateRange(update)

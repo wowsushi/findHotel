@@ -25,9 +25,15 @@ export const useFetch = () => {
 
       return response.data
     } catch (err) {
-      Modal.alert(err.response.data.message)
-      setErrors(err.response.data)
-      return err.response.data
+      // server side throw error
+      if (err.response.data.message) {
+        Modal.alert(err.response.data)
+        setErrors(err.response.data)
+        return err.response.data
+        // client side throw error
+      } else {
+        debugger
+      }
     }
   }
 

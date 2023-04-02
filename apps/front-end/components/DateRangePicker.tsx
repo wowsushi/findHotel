@@ -3,16 +3,25 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
-  label: string
+  label?: string
   startDate: Date
   endDate: Date
+  invertTextColor?: boolean
   onChange: (update: [string, string]) => void
 }
 
-export const DateRangePicker: FC<Props> = ({ label, ...props }) => {
+export const DateRangePicker: FC<Props> = ({
+  label,
+  invertTextColor,
+  ...props
+}) => {
   return (
     <>
-      <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2">
+      <label
+        className={`block uppercase tracking-wide text-sm font-bold mb-2 ${
+          invertTextColor ? 'text-white' : 'text-gray-700'
+        }`}
+      >
         {label}
       </label>
       <DatePicker

@@ -3,11 +3,11 @@ import { SearchArea } from '@/components'
 import { useEffect, FC, useContext, useState } from 'react'
 import { useFetch } from '@/hooks'
 import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
-import { SearchContext } from '../_app'
+import { GlobalContext } from '../_app'
 
 const Search: FC = () => {
   const { doRequest } = useFetch()
-  const { searchState, setSearchState } = useContext(SearchContext)
+  const { globalState: searchState, setGlobalState: setSearchState } = useContext(GlobalContext)
   const { searchQuery } = searchState
 
   const [hotels, setHotels] = useState<OFindHotels[]>()

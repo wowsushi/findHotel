@@ -5,6 +5,8 @@ import { LockClosedIcon } from '@heroicons/react/20/solid'
 import { Input, Button, Modal } from '@/components'
 import { useFetch } from '@/hooks'
 import { useRouter } from 'next/router'
+import { GlobalContext } from '../_app'
+import { useContext } from 'react'
 
 type FormValues = {
   email: string
@@ -19,6 +21,7 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
 const Login = () => {
   const router = useRouter()
   const { doRequest } = useFetch()
+  const { setGlobalState } = useContext(GlobalContext)
 
   const {
     register,
@@ -34,7 +37,17 @@ const Login = () => {
         password: data.password,
       },
       method: 'post',
-      onSuccess: () => Modal.alert('登入成功', () => router.push('/')),
+      onSuccess: (currentUser) => {
+        Modal.alert('登入成功', () => {
+          setGlobalState({ currentUser })
+          const returnUrl = router.query.returnUrl as string
+          if (returnUrl) {
+            router.push(returnUrl)
+            return
+          }
+          router.push('/')
+        })
+      },
     })
   })
 
