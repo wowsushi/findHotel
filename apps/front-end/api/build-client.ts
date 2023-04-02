@@ -11,7 +11,9 @@ const buildClient = ({ req }) => {
   } else {
     // We must be on the browser
     return axios.create({
-      baseURL: process.env.NX_BASE_URL_CLIENT + '/api',
+      baseURL: process.env.NX_BASE_URL_CLIENT
+        ? `${process.env.NX_BASE_URL_CLIENT}/api`
+        : '/api',
       withCredentials: true,
     })
   }
