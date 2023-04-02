@@ -14,7 +14,7 @@ const instance = axios.create({
 export const useFetch = () => {
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
-
+  console.log(process.env.NX_BASE_URL_CLIENT)
   const doRequest = useCallback(
     async ({ onSuccess, ...props }: RequestProps) => {
       setLoading(true)
