@@ -2,7 +2,7 @@ import { FC, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react'
 import { GlobalError, UseFormRegisterReturn } from 'react-hook-form'
 
 type Props = {
-  name: string
+  name?: string
   error?: GlobalError
   label?: string
   register?: UseFormRegisterReturn

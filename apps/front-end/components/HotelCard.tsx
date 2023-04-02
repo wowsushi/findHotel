@@ -5,6 +5,7 @@ import { utility } from '@findhotel/common'
 import type { OFindHotels } from '@/types/hotels'
 
 import Link from 'next/link'
+import { AspectRatio } from './AspectRatio'
 type Props = {
   hotel: OFindHotels
 }
@@ -16,15 +17,17 @@ export const HotelCard: FC<Props> = ({ hotel }) => {
       className="bg-white flex rounded-lg shadow-lg overflow-hidden border border-gray-100 hover:border-sky-200 transition mb-4 md:p-4 p-2 cursor-pointer text-sm md:text-base"
     >
       <div className="w-1/3 min-w-[150px]">
-        <Image
-          src={hotel.pictures[0]}
-          alt={hotel.name}
-          width={960}
-          height={720}
-          className="h-full w-full object-cover rounded"
-        />
+        <AspectRatio ratio={225 / 288}>
+          <Image
+            src={hotel.pictures[0]}
+            alt={hotel.name}
+            width={960}
+            height={720}
+            className="h-full w-full object-cover rounded"
+          />
+        </AspectRatio>
       </div>
-      <div className="w-2/3 px-4 pt-0 flex flex-col md:flex-row justify-between">
+      <div className="w-2/3 pl-4 md:px-4 pt-0 flex flex-col md:flex-row justify-between">
         <div>
           <h2 className="font-bold text-xl mb-2 text-sky-700">{hotel.name}</h2>
           <p className="text-gray-700 mb-2 flex items-center">

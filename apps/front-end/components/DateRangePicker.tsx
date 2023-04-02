@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { Input } from './Input'
 
 type Props = {
   label?: string
@@ -28,6 +29,8 @@ export const DateRangePicker: FC<Props> = ({
       <DatePicker
         className="mb-2 relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
         selectsRange={true}
+        dateFormat="yyyy/MM/dd"
+        customInput={<Input inputMode="none" />}
         {...props}
       />
     </>

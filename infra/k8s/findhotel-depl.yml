@@ -19,7 +19,7 @@ spec:
             - name: NX_BASE_URL_SERVER
               value: 'http://localhost:3333/api'
             - name: NX_BASE_URL_CLIENT
-              value: '/api'
+              value: 'http://www.find-hotel.online/api'
 
 ---
 apiVersion: v1
