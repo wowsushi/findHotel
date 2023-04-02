@@ -60,3 +60,7 @@ pre {
 ul, li {
   list-style: none;
 }
+
+select {
+  background-color: white;
+}

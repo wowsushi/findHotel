@@ -1,6 +1,6 @@
 import { Modal } from '@/components'
 import axios, { AxiosRequestConfig } from 'axios'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 type RequestProps = {
   onSuccess?: (data) => void
@@ -13,29 +13,39 @@ const instance = axios.create({
 
 export const useFetch = () => {
   const [errors, setErrors] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const doRequest = async ({ onSuccess, ...props }: RequestProps) => {
-    try {
-      setErrors(null)
-      const response = await instance(props)
+  const doRequest = useCallback(
+    async ({ onSuccess, ...props }: RequestProps) => {
+      setLoading(true)
 
-      if (onSuccess) {
-        onSuccess(response.data)
+      try {
+        setErrors(null)
+        const response = await instance(props)
+
+        if (onSuccess) {
+          onSuccess(response.data)
+        }
+
+        return response.data
+      } catch (err) {
+        // server side throw error
+        if (err.response.data.message) {
+          Modal.alert(err.response.data)
+          setErrors(err.response.data)
+          return err.response.data
+          // client side throw error
+        } else {
+          debugger
+        }
+      } finally {
+        setTimeout(() => {
+          setLoading(false)
+        }, 500)
       }
+    },
+    []
+  )
 
-      return response.data
-    } catch (err) {
-      // server side throw error
-      if (err.response.data.message) {
-        Modal.alert(err.response.data)
-        setErrors(err.response.data)
-        return err.response.data
-        // client side throw error
-      } else {
-        debugger
-      }
-    }
-  }
-
-  return { doRequest, errors }
+  return { doRequest, errors, loading }
 }

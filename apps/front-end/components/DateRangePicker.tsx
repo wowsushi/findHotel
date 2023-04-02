@@ -7,6 +7,7 @@ type Props = {
   startDate: Date
   endDate: Date
   invertTextColor?: boolean
+  inputMode?: string
   onChange: (update: [string, string]) => void
 }
 

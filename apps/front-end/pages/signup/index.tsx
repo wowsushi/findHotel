@@ -8,6 +8,7 @@ import { useFetch } from '@/hooks'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
 import { useContext } from 'react'
+import Link from 'next/link'
 
 type FormValues = {
   email: string
@@ -19,7 +20,7 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
   password: yup.string().required('必填'),
 })
 
-const Login = () => {
+const Signup = () => {
   const router = useRouter()
   const { doRequest } = useFetch()
   const { setGlobalState } = useContext(GlobalContext)
@@ -32,14 +33,14 @@ const Login = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     await doRequest({
-      url: '/auth/signin',
+      url: '/auth/signup',
       data: {
         email: data.email,
         password: data.password,
       },
       method: 'post',
       onSuccess: (currentUser) => {
-        Modal.alert('登入成功', () => {
+        Modal.alert('註冊成功', () => {
           setGlobalState({ currentUser })
           const returnUrl = router.query.returnUrl as string
           if (returnUrl) {
@@ -57,14 +58,14 @@ const Login = () => {
       <div className="w-full max-w-3xl space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            登入
+            註冊
           </h2>
         </div>
         <div className="flex gap-12 items-center">
           <div className="hidden lg:block flex-1">
             <Image
               src="/empty.png"
-              alt="login"
+              alt="Signup"
               width={1200}
               height={1200}
               className="flex-1"
@@ -90,30 +91,15 @@ const Login = () => {
               />
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  記住我
-                </label>
-              </div>
-
+            <div className="flex items-center justify-end">
               <div className="text-sm">
-                <span className="text-black">還沒有帳號？</span>
-                <a
-                  href="/signup"
+                <span className="text-black">已經有帳號？</span>
+                <Link
+                  href="/login"
                   className="font-medium text-sky-600 hover:text-sky-500"
                 >
-                  註冊
-                </a>
+                  登入
+                </Link>
               </div>
             </div>
             <div>
@@ -124,7 +110,7 @@ const Login = () => {
                     aria-hidden="true"
                   />
                 </span>
-                登入
+                註冊
               </Button>
             </div>
           </form>
@@ -137,9 +123,9 @@ const Login = () => {
 export async function getServerSideProps(context) {
   return {
     props: {
-      pageTitle: '登入',
+      pageTitle: '註冊',
     },
   }
 }
 
-export default Login
+export default Signup

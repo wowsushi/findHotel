@@ -61,18 +61,12 @@ function CustomApp({
       !!searchQuery && setGlobalState({ searchQuery })
     }
   }, [])
-
-  const searchValues = useMemo(
-    () => ({ globalState, setGlobalState }),
-    [globalState]
-  )
-
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <GlobalContext.Provider value={searchValues}>
+      <GlobalContext.Provider value={{ globalState, setGlobalState }}>
         <Nav></Nav>
         <main className="h-screen pt-[72px]">
           <Component {...pageProps} />

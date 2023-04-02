@@ -5,13 +5,15 @@ import { FC, useEffect, useState } from 'react'
 import { Button, DateRangePicker, Input } from '@/components'
 import type { HotelQuery } from '../api/types/hotels'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/router'
 
 type Props = {
   searchQuery: HotelQuery
-  onSearch: (hotelQuery: HotelQuery) => Promise<void>
+  onSearch: (hotelQuery: HotelQuery) => void
 }
 
 export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
+  const router = useRouter()
   const [, setDateRange] = useState([null, null])
   const [isShowSearchArea, setIsShowSearchArea] = useState(false)
   const schema: yup.ObjectSchema<HotelQuery> = yup.object().shape({
@@ -73,17 +75,22 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
         }`}
         onSubmit={handleSearchHotels}
       >
-        <fieldset className="mb-2">
-          <Input
-            name="area"
-            label="旅遊地點"
-            register={register('area')}
-            value={searchQuery?.area}
-          />
-        </fieldset>
+        {!router.pathname.includes('hotel') && (
+          <fieldset className="mb-2">
+            <Input
+              name="area"
+              label="旅遊地點"
+              register={register('area')}
+              value={searchQuery?.area}
+              readOnly
+              inputMode="none"
+            />
+          </fieldset>
+        )}
         <fieldset className="mb-2">
           <DateRangePicker
             label="住房日期"
+            inputMode="none"
             startDate={
               getValues('startDate') && new Date(getValues('startDate'))
             }
@@ -134,7 +141,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
               {Array(6)
                 .fill(null)
                 .map((_, i) => (
-                  <option key={i}>{1}</option>
+                  <option key={i}>{i}</option>
                 ))}
             </Input>
           </fieldset>

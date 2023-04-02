@@ -3,9 +3,11 @@ import Image from 'next/image'
 import {
   AspectRatio,
   Button,
+  Empty,
   SearchArea,
   Slider,
   Typography,
+  Loading,
 } from '@/components'
 import {
   MapPinIcon,
@@ -31,32 +33,31 @@ type Props = {
 
 const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
   const router = useRouter()
-  const { doRequest } = useFetch()
+  const { doRequest, loading } = useFetch()
   const [rooms, setRooms] = useState<OFindRooms[]>([])
-  const { globalState: searchState, setGlobalState: setSearchState } =
-    useContext(GlobalContext)
-  const { searchQuery } = searchState
+  const { globalState, setGlobalState } = useContext(GlobalContext)
+  const { searchQuery } = globalState
+  console.log('loading', loading)
 
   useEffect(() => {
+    const handleSearchRoom = async (query: HotelQuery) => {
+      if (!query) return
+      const hotelId = router.query.hotelId
+      const rooms = await doRequest({
+        url: '/rooms/findRooms',
+        method: 'get',
+        params: {
+          ...query,
+          hotelId,
+        },
+      })
+
+      setRooms(rooms)
+    }
     if (searchQuery) {
       handleSearchRoom(searchQuery)
     }
-  }, [searchQuery])
-
-  const handleSearchRoom = async (query: HotelQuery) => {
-    const hotelId = router.query.hotelId
-    const rooms = await doRequest({
-      url: '/rooms/findRooms',
-      method: 'get',
-      params: {
-        ...query,
-        hotelId,
-      },
-    })
-
-    setSearchState({ searchQuery: query })
-    setRooms(rooms)
-  }
+  }, [searchQuery, router, doRequest])
 
   const handleBookRoom = (roomId: number) => {
     const startDate = dayjs(searchQuery.startDate).toISOString()
@@ -69,14 +70,17 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
       endDate,
     }
     sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
-    setSearchState({ searchQuery: query })
+    setGlobalState({ searchQuery: query })
 
     router.push('/checkout')
   }
 
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
-      <SearchArea searchQuery={searchQuery} onSearch={handleSearchRoom} />
+      <SearchArea
+        searchQuery={searchQuery}
+        onSearch={(query) => setGlobalState({ searchQuery: query })}
+      />
       <div className="overflow-hidden">
         <h1 className="text-3xl font-bold m-4">{hotel.name}</h1>
         <Slider className="lg:hidden">
@@ -199,9 +203,10 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
 
           <section className="pt-4">
             <H3>房型</H3>
-            <ul className="mb-4 flex flex-col xl:flex-row gap-4">
-              {rooms.length > 0
-                ? rooms.map((room) => (
+            <Loading loading={loading}>
+              {rooms.length > 0 ? (
+                <ul className="mb-4 flex flex-col xl:flex-row gap-4">
+                  {rooms.map((room) => (
                     <li
                       className="rounded-lg border border-slate-400 min-h-[130px] flex justify-between shadow-md xl:w-1/2"
                       key={room.id}
@@ -238,9 +243,14 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
                         </Button>
                       </div>
                     </li>
-                  ))
-                : '暫無合適房型'}
-            </ul>
+                  ))}
+                </ul>
+              ) : (
+                <Empty>
+                  目前沒有可預定的房間，選擇其他日期或人數來取得房型與價格
+                </Empty>
+              )}
+            </Loading>
           </section>
 
           <section className="pt-4">

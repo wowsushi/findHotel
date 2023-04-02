@@ -25,7 +25,8 @@ export const Nav: FC<PropsWithChildren> = () => {
       },
     })
   }
-  const isShowLogin = !router.pathname.includes('login')
+
+  const isShowLogin = !['/login', '/signup'].includes(router.pathname)
   return (
     <>
       <header>

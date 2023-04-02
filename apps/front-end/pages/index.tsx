@@ -32,7 +32,7 @@ const Index = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 lg:mb-10">
           即刻預定非凡旅程
         </h1>
-        <form className="w-full mx-auto" onSubmit={handleSearchHotels}>
+        <form className="w-full mx-auto py-4" onSubmit={handleSearchHotels}>
           <div className="flex flex-wrap flex-col -mx-3 mb-6 md:flex-row">
             <fieldset className="md:w-1/3 px-3 mb-6 md:mb-0">
               <Input
@@ -40,6 +40,7 @@ const Index = () => {
                 label="旅遊地點"
                 register={register('area')}
                 value="台北"
+                readOnly
                 invertTextColor
               />
             </fieldset>
@@ -61,36 +62,6 @@ const Index = () => {
             <fieldset className="md:w-1/3 px-3 mb-6 md:mb-0">
               <Input
                 type="select"
-                name="adult"
-                label="大人"
-                register={register('adult')}
-                invertTextColor
-              >
-                {Array(5)
-                  .fill(null)
-                  .map((_, i) => (
-                    <option key={i}>{i + 1}</option>
-                  ))}
-              </Input>
-            </fieldset>
-            <fieldset className="md:w-1/3 px-3 mb-6 md:mb-0">
-              <Input
-                type="select"
-                name="child"
-                label="小孩"
-                register={register('child')}
-                invertTextColor
-              >
-                {Array(6)
-                  .fill(null)
-                  .map((_, i) => (
-                    <option key={i}>{i}</option>
-                  ))}
-              </Input>
-            </fieldset>
-            <fieldset className="md:w-1/3 px-3 mb-6 md:mb-0">
-              <Input
-                type="select"
                 name="room"
                 label="房間"
                 register={register('room')}
@@ -103,6 +74,38 @@ const Index = () => {
                   ))}
               </Input>
             </fieldset>
+            <div className="grid grid-cols-2 gap-2 mb-2 md:flex flex-1 md:gap-6">
+              <fieldset className="md:w-1/2 pl-3 mb-6 md:mb-0">
+                <Input
+                  type="select"
+                  name="adult"
+                  label="大人"
+                  register={register('adult')}
+                  invertTextColor
+                >
+                  {Array(5)
+                    .fill(null)
+                    .map((_, i) => (
+                      <option key={i}>{i + 1}</option>
+                    ))}
+                </Input>
+              </fieldset>
+              <fieldset className="md:w-1/2 pr-3 mb-6 md:mb-0">
+                <Input
+                  type="select"
+                  name="child"
+                  label="小孩"
+                  register={register('child')}
+                  invertTextColor
+                >
+                  {Array(6)
+                    .fill(null)
+                    .map((_, i) => (
+                      <option key={i}>{i}</option>
+                    ))}
+                </Input>
+              </fieldset>
+            </div>
           </div>
           <div className="flex items-center justify-center mt-0 lg:mt-10">
             <Button variant="primary" type="submit">
