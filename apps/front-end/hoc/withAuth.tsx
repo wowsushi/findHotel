@@ -20,6 +20,14 @@ export const withAuth: Props = (Component) => {
 
       return () => setGlobalState({ needAuth: false })
     }, [isAuthenticated, router, setGlobalState])
+
+    AuthenticatedComponents.getInitialProps = async (ctx) => {
+      console.log('ctx', ctx)
+      if (Component.getInitialProps) {
+        const props = await Component.getInitialProps(ctx)
+        return props
+      }
+    }
     return isAuthenticated ? <Component {...props} /> : null
   }
 
