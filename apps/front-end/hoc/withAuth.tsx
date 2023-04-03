@@ -1,11 +1,12 @@
 import { Modal } from '@/components'
+import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { FC, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { GlobalContext } from '../pages/_app'
 
-type Props = (Component: FC) => FC
+type Props = (Component: NextPage) => NextPage
 export const withAuth: Props = (Component) => {
-  const AuthenticatedComponents = (props) => {
+  const AuthenticatedComponents: NextPage = (props) => {
     const router = useRouter()
     const { globalState, setGlobalState } = useContext(GlobalContext)
     const isAuthenticated = globalState.currentUser
@@ -21,13 +22,6 @@ export const withAuth: Props = (Component) => {
       return () => setGlobalState({ needAuth: false })
     }, [isAuthenticated, router, setGlobalState])
 
-    AuthenticatedComponents.getInitialProps = async (ctx) => {
-      console.log('ctx', ctx)
-      if (Component.getInitialProps) {
-        const props = await Component.getInitialProps(ctx)
-        return props
-      }
-    }
     return isAuthenticated ? <Component {...props} /> : null
   }
 

@@ -53,7 +53,6 @@ const Checkout = () => {
   }, [searchQuery])
 
   const handleBookRoom = handleSubmit(async (data) => {
-    console.log(data)
     const res = await doRequest({
       url: '/orders',
       method: 'post',

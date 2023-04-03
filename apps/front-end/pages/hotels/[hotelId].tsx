@@ -37,7 +37,6 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
   const [rooms, setRooms] = useState<OFindRooms[]>([])
   const { globalState, setGlobalState } = useContext(GlobalContext)
   const { searchQuery } = globalState
-  console.log('loading', loading)
 
   useEffect(() => {
     const handleSearchRoom = async (query: HotelQuery) => {

@@ -19,7 +19,7 @@ type Props = {
   model: Order
 }
 
-const OrderHistoryDetail: NextPage<Props> = ({ model }) => {
+const _OrderHistoryDetail: NextPage<Props> = ({ model }) => {
   return (
     <div className="lg:py-8">
       <div className="container max-w-screen-xl mx-auto py-4  divide-y divide-solid divide-slate-300 lg:bg-white lg:rounded-xl lg:p-6 lg:shadow">
@@ -120,6 +120,8 @@ const OrderHistoryDetail: NextPage<Props> = ({ model }) => {
   )
 }
 
+const OrderHistoryDetail = withAuth(_OrderHistoryDetail)
+
 OrderHistoryDetail.getInitialProps = async (
   context: NextPageContext & { client: AxiosInstance }
 ) => {
@@ -129,4 +131,4 @@ OrderHistoryDetail.getInitialProps = async (
   return { model: data, pageTitle: '訂房明細' }
 }
 
-export default withAuth(OrderHistoryDetail)
+export default OrderHistoryDetail

@@ -12,8 +12,7 @@ type Props = {
   model: Order[]
 }
 
-const OrderHistory: NextPage<Props> = ({ model }) => {
-  console.log(model)
+const _OrderHistory: NextPage<Props> = ({ model }) => {
   return (
     <div className="container max-w-screen-xl mx-auto py-4 px-2">
       <H2>查詢訂單</H2>
@@ -48,6 +47,8 @@ const OrderHistory: NextPage<Props> = ({ model }) => {
   )
 }
 
+const OrderHistory = withAuth(_OrderHistory)
+
 OrderHistory.getInitialProps = async (
   context: NextPageContext & { client: AxiosInstance }
 ) => {
@@ -55,4 +56,4 @@ OrderHistory.getInitialProps = async (
   return { model: data, pageTitle: '訂單查詢' }
 }
 
-export default withAuth(OrderHistory)
+export default OrderHistory
