@@ -58,7 +58,7 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
     }
   }, [searchQuery, router, doRequest])
 
-  const handleBookRoom = (roomId: number) => {
+  const handleBookRoom = async (roomId: number) => {
     const startDate = dayjs(searchQuery.startDate).toISOString()
     const endDate = dayjs(searchQuery.endDate).toISOString()
     const query = {
@@ -69,9 +69,8 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
       endDate,
     }
     sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(query))
+    await router.push('/checkout')
     setGlobalState({ searchQuery: query })
-
-    router.push('/checkout')
   }
 
   return (

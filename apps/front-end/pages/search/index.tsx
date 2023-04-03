@@ -1,14 +1,14 @@
 import { HotelCard } from '../../components/HotelCard'
-import { SearchArea } from '@/components'
+import { Empty, Loading, SearchArea } from '@/components'
 import { useEffect, FC, useContext, useState } from 'react'
 import { useFetch } from '@/hooks'
 import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { GlobalContext } from '../_app'
 
 const Search: FC = () => {
-  const { doRequest } = useFetch()
-  const { globalState: searchState, setGlobalState: setSearchState } = useContext(GlobalContext)
-  const { searchQuery } = searchState
+  const { doRequest, loading } = useFetch()
+  const { globalState, setGlobalState } = useContext(GlobalContext)
+  const { searchQuery } = globalState
 
   const [hotels, setHotels] = useState<OFindHotels[]>()
   useEffect(() => {
@@ -25,15 +25,23 @@ const Search: FC = () => {
       params: hotelQuery,
     })
 
-    setSearchState({ searchQuery: hotelQuery })
+    setGlobalState({ searchQuery: hotelQuery })
     setHotels(hotels)
   }
   return (
     <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
       <SearchArea searchQuery={searchQuery} onSearch={handleSearchHotels} />
       <div className="py-4 px-2">
-        {hotels?.length > 0 &&
-          hotels.map((h) => <HotelCard key={h.id} hotel={h} />)}
+        {hotels?.length > 0 ? (
+          <>
+            {hotels.map((h) => (
+              <HotelCard key={h.id} hotel={h} />
+            ))}
+            <Loading loading={loading}></Loading>
+          </>
+        ) : (
+          <Empty loading={loading}>你選擇的時段與人數並無合適房間</Empty>
+        )}
       </div>
     </div>
   )

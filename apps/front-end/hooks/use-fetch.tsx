@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react'
 
 type RequestProps = {
   onSuccess?: (data) => void
+  delayLoading?: boolean
 } & AxiosRequestConfig
 
 const instance = axios.create({
@@ -13,12 +14,17 @@ const instance = axios.create({
   withCredentials: true,
 })
 
-export const useFetch = () => {
+type Props = () => {
+  doRequest: any
+  loading: boolean
+  errors: string[]
+}
+export const useFetch: Props = () => {
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const doRequest = useCallback(
-    async ({ onSuccess, ...props }: RequestProps) => {
+    async ({ onSuccess, delayLoading, ...props }: RequestProps) => {
       setLoading(true)
 
       try {
@@ -40,9 +46,13 @@ export const useFetch = () => {
           debugger
         }
       } finally {
-        setTimeout(() => {
+        if (delayLoading) {
+          setTimeout(() => {
+            setLoading(false)
+          }, 500)
+        } else {
           setLoading(false)
-        }, 500)
+        }
       }
     },
     []

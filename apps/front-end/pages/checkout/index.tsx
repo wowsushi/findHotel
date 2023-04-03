@@ -47,8 +47,6 @@ const Checkout = () => {
 
     if (!!startDate && !!endDate && !!adult && !!room && !!roomId) {
       handleGetEstimatedOrder(searchQuery)
-    } else {
-      Modal.alert('查無訂單資訊', () => router.push('/'))
     }
   }, [searchQuery])
 

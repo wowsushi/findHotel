@@ -73,6 +73,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
         className={`bg-sky-200 rounded p-4 sticky top-[88px] lg:block ${
           isShowSearchArea ? 'block' : 'hidden'
         }`}
+        id="search-area"
         onSubmit={handleSearchHotels}
       >
         {!router.pathname.includes('hotel') && (
@@ -90,7 +91,6 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
         <fieldset className="mb-2">
           <DateRangePicker
             label="住房日期"
-            inputMode="none"
             startDate={
               getValues('startDate') && new Date(getValues('startDate'))
             }
