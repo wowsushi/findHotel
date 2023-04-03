@@ -33,7 +33,7 @@ export const DateRangePicker: FC<Props> = ({
         minDate={new Date()}
         maxDate={dayjs().add(30, 'd').toDate()}
         selectsRange
-        disabledKeyboardNavigation
+        customInput={<Input inputMode="none" />}
         {...props}
       />
     </>
