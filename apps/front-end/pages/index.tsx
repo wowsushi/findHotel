@@ -30,7 +30,7 @@ const Index = () => {
     <div className="before:bg-cover before:bg-center h-full py-8 lg:py-32 before:fixed before:inset-0 bg-no-repeat before:blur-[2px] before:brightness-75 before:bg-[url('https://images.unsplash.com/photo-1679939099392-efa3c55c2b71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=80')]">
       <div className="container mx-auto max-w-lg px-4 relative module-inside">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 lg:mb-10">
-          即刻預定非凡旅程
+          即刻預訂非凡旅程
         </h1>
         <form className="w-full mx-auto py-4" onSubmit={handleSearchHotels}>
           <div className="flex flex-wrap flex-col -mx-3 mb-6 md:flex-row">

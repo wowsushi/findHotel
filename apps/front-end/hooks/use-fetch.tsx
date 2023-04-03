@@ -42,8 +42,6 @@ export const useFetch: Props = () => {
           setErrors(err.response.data)
           return err.response.data
           // client side throw error
-        } else {
-          debugger
         }
       } finally {
         if (delayLoading) {

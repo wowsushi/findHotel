@@ -65,6 +65,15 @@ function CustomApp({
     <>
       <Head>
         <title>{title}</title>
+        <meta property="og:title" content="FINDHOTEL" key="title" />
+        <meta
+          property="og:description"
+          content="即刻預訂非凡行程，下一次旅行的意義由你決定！"
+        />
+        <meta
+          property="og:image"
+          content="https://github.com/wowsushi/findHotel/blob/main/apps/front-end/public/ogimage.png?raw=true"
+        />
       </Head>
       <GlobalContext.Provider value={{ globalState, setGlobalState }}>
         <Nav></Nav>
