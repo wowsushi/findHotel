@@ -1,6 +1,6 @@
 import { Modal } from '@/components'
 import axios, { AxiosRequestConfig } from 'axios'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 
 type RequestProps = {
   onSuccess?: (data) => void
@@ -21,7 +21,11 @@ type Props = () => {
 }
 export const useFetch: Props = () => {
   const [errors, setErrors] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useLayoutEffect(() => {
+    setLoading(false)
+  }, [])
 
   const doRequest = useCallback(
     async ({ onSuccess, delayLoading, ...props }: RequestProps) => {
@@ -41,7 +45,6 @@ export const useFetch: Props = () => {
           Modal.alert(err.response.data)
           setErrors(err.response.data)
           return err.response.data
-          // client side throw error
         }
       } finally {
         if (delayLoading) {
