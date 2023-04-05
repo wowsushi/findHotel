@@ -38,7 +38,6 @@ const Index = () => {
               <Input
                 name="area"
                 label="旅遊地點"
-                register={register('area')}
                 value="台北"
                 readOnly
                 invertTextColor

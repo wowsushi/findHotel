@@ -1,3 +1,4 @@
+import React, { ForwardRefRenderFunction } from 'react'
 import { FC, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react'
 import { GlobalError, UseFormRegisterReturn } from 'react-hook-form'
 
@@ -9,17 +10,20 @@ type Props = {
   type?: 'date' | HTMLInputTypeAttribute
   invertTextColor?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
-export const Input: FC<Props> = ({
-  name,
-  error,
-  label,
-  register,
-  placeholder,
-  type,
-  children,
-  invertTextColor,
-  ...props
-}) => {
+const _Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
+  {
+    name,
+    error,
+    label,
+    register,
+    placeholder,
+    type,
+    children,
+    invertTextColor,
+    ...props
+  },
+  ref
+) => {
   const inputId = `${name}-input`
   const renderLabel = () => (
     <label
@@ -63,6 +67,7 @@ export const Input: FC<Props> = ({
     <div className="mb-2">
       {renderLabel()}
       <input
+        ref={ref}
         id={inputId}
         name={name}
         type={type}
@@ -75,3 +80,5 @@ export const Input: FC<Props> = ({
     </div>
   )
 }
+
+export const Input = React.forwardRef(_Input)

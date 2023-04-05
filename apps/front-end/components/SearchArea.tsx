@@ -82,7 +82,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
               name="area"
               label="旅遊地點"
               register={register('area')}
-              value={searchQuery?.area}
+              value={searchQuery?.area || ''}
               readOnly
               inputMode="none"
             />

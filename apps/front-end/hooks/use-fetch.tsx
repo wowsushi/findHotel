@@ -23,8 +23,12 @@ export const useFetch: Props = () => {
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useLayoutEffect(() => {
-    setLoading(false)
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
   }, [])
 
   const doRequest = useCallback(
