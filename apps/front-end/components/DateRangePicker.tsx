@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker'
 import dayjs from 'dayjs'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Input } from './Input'
-import React from 'react'
 
 type Props = {
   label?: string
@@ -14,10 +13,11 @@ type Props = {
   onChange: (update: [string, string]) => void
 }
 
-export const DateRangePicker: FC<Props> = (
-  { label, invertTextColor, ...props },
-  ref
-) => {
+export const DateRangePicker: FC<Props> = ({
+  label,
+  invertTextColor,
+  ...props
+}) => {
   return (
     <>
       <label

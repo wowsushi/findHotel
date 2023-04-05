@@ -1,5 +1,5 @@
 import React, { ForwardRefRenderFunction } from 'react'
-import { FC, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react'
+import { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react'
 import { GlobalError, UseFormRegisterReturn } from 'react-hook-form'
 
 type Props = {

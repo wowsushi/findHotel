@@ -1,6 +1,6 @@
 import { Modal } from '@/components'
-import axios, { AxiosRequestConfig } from 'axios'
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios'
+import { useCallback, useEffect, useState } from 'react'
 
 type RequestProps = {
   onSuccess?: (data) => void
@@ -15,7 +15,7 @@ const instance = axios.create({
 })
 
 type Props = () => {
-  doRequest: any
+  doRequest: (request: RequestProps) => Promise<any>
   loading: boolean
   errors: string[]
 }

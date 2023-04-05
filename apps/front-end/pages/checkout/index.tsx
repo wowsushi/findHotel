@@ -23,8 +23,17 @@ type FormValues = {
 const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
   lastName: yup.string().required('必填'),
   firstName: yup.string().required('必填'),
-  phone: yup.string().required('必填'),
-  email: yup.string().required('必填').email('請輸入有效email'),
+  phone: yup
+    .string()
+    .required('必填')
+    .matches(/^09[0-9]{8}$/, '請輸入有效手機號碼'),
+  email: yup
+    .string()
+    .required('必填')
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      '請輸入有效 email'
+    ),
   note: yup.string(),
 })
 

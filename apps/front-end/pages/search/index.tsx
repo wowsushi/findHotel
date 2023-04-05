@@ -1,6 +1,6 @@
 import { HotelCard } from '../../components/HotelCard'
 import { Empty, Loading, SearchArea } from '@/components'
-import { useEffect, FC, useContext, useState, useLayoutEffect } from 'react'
+import { useEffect, FC, useContext, useState } from 'react'
 import { useFetch } from '@/hooks'
 import { HotelQuery, HOTEL_QUERY, OFindHotels } from '@/types/hotels'
 import { GlobalContext } from '../_app'
