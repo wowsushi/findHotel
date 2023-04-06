@@ -1,5 +1,5 @@
 import { Modal } from '@/components'
-import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 
 type RequestProps = {

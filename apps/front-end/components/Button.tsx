@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react'
 
 type Props = {
-  variant: 'primary'
+  variant: 'primary' | 'link'
   fullWidth?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 export const Button: FC<Props> = ({
@@ -14,6 +14,7 @@ export const Button: FC<Props> = ({
 }) => {
   const styles = {
     primary: 'bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-500 ',
+    link: 'text-gray-600 hover:text-gray-700 focus:ring-gray-200 ',
   }
 
   return (
