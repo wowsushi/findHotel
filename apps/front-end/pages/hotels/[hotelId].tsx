@@ -74,7 +74,7 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
   }
 
   return (
-    <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
+    <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row pt-[54px] lg:pt-0">
       <SearchArea
         searchQuery={searchQuery}
         onSearch={(query) => setGlobalState({ searchQuery: query })}

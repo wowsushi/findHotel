@@ -28,9 +28,9 @@ const Search: FC = () => {
     setHotels(hotels)
   }
   return (
-    <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row">
+    <div className="container max-w-screen-xl mx-auto flex flex-col lg:flex-row pt-[54px] lg:pt-0">
       <SearchArea searchQuery={searchQuery} onSearch={handleSearchHotels} />
-      <div className="py-4 px-2">
+      <div className="py-4 px-2 flex-1">
         {hotels?.length > 0 ? (
           <>
             {hotels.map((h) => (

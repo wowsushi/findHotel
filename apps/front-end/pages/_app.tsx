@@ -77,7 +77,7 @@ function CustomApp({
       </Head>
       <GlobalContext.Provider value={{ globalState, setGlobalState }}>
         <Nav></Nav>
-        <main className="h-screen pt-[44px]">
+        <main className="h-screen pt-[44px] lg:pt-[70px]">
           <Component {...pageProps} />
         </main>
       </GlobalContext.Provider>
