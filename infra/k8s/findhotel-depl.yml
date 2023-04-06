@@ -20,6 +20,26 @@ spec:
               value: 'http://localhost:3333/api'
             - name: NX_BASE_URL_CLIENT
               value: ''
+            - name: COOKIE_KEY
+              value: 'alskdfjlkj'
+            - name: DB_NAME
+              value: 'mysql'
+            - name: DB_HOST
+              value: 'db-mysql-findhotel-do-user-13858990-0.b.db.ondigitalocean.com'
+            - name: DB_PORT
+              value: 25060
+            - name: DB_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-secret
+                  key: DB_USER_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password-secret
+                  key: DB_PASSWORD
+            - name: DB_DATABASE_NAME
+              value: 'dev_db'
 
 ---
 apiVersion: v1
