@@ -27,7 +27,7 @@ spec:
             - name: DB_HOST
               value: 'db-mysql-findhotel-do-user-13858990-0.b.db.ondigitalocean.com'
             - name: DB_PORT
-              value: 25060
+              value: '25060'
             - name: DB_USER_NAME
               valueFrom:
                 secretKeyRef:
