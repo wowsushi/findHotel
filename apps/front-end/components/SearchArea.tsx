@@ -61,7 +61,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
   })
 
   return (
-    <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 sticky top-[72px] lg:top-[88px] z-10">
+    <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 fixed top-[44px] lg:top-[88px] z-10">
       <div className="lg:hidden flex justify-between items-center p-2 bg-sky-200">
         <p>{renderDateRange(searchQuery?.startDate, searchQuery?.endDate)}</p>
         <Button variant="primary" onClick={handleToggleSearchArea}>

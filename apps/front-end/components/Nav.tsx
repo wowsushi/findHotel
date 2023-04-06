@@ -47,7 +47,7 @@ export const Nav: FC<PropsWithChildren> = () => {
   return (
     <>
       <header>
-        <nav className="bg-white py-4 fixed top-0 w-full z-10 shadow-lg px-4 lg:px-8">
+        <nav className="bg-white py-2 lg:py-4 fixed top-0 w-full z-10 shadow-lg px-4 lg:px-8">
           <div className="container flex justify-between items-center mx-auto">
             <Link
               href="/"

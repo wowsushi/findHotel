@@ -82,60 +82,17 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
       <div className="overflow-hidden">
         <h1 className="text-3xl font-bold m-4">{hotel.name}</h1>
         <Slider className="lg:hidden">
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[0]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[1]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[2]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[0]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[1]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
-          <AspectRatio ratio={1 / 2}>
-            <Image
-              src={hotel.pictures[2]}
-              alt={hotel.name}
-              width={960}
-              height={720}
-              className="h-full w-full object-cover"
-            />
-          </AspectRatio>
+          {hotel.pictures?.map((p) => (
+            <AspectRatio ratio={1 / 2} key={p}>
+              <Image
+                src={p}
+                alt={hotel.name}
+                width={960}
+                height={720}
+                className="h-full w-full object-cover"
+              />
+            </AspectRatio>
+          ))}
         </Slider>
         <div className="lg:grid grid-cols-4 grid-rows-2 gap-2 hidden">
           <div className="col-span-2 row-span-2">
