@@ -184,7 +184,7 @@ const HotelDetail: NextPage<Props> = ({ hotel, ...rest }) => {
                         </p>
                       </div>
                       <div className="w-1/3 flex flex-col p-2 justify-center items-center">
-                        <span className="text-xs">2人 / 2房 / 1晚</span>
+                        <span className="text-xs">每晚</span>
                         <span className="text-red-500 text-2xl font-bold mb-2">
                           ${utility.numberToCurrency(room.discountPrice)}
                         </span>
