@@ -52,7 +52,7 @@ export const Popover: FC<Props> = ({
   return (
     <Portal target={id}>
       <div
-        className="bg-white absolute rounded-lg shadow-lg z-10 border border-gray-300"
+        className="bg-white fixed rounded-lg shadow-lg z-10 border border-gray-300"
         style={{ top: position.bottom, right: getPositionLeft() }}
       >
         <div className="p-2">{children}</div>
