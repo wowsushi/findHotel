@@ -78,7 +78,7 @@ export const Nav: FC<PropsWithChildren> = () => {
                   <>
                     <Button
                       variant="link"
-                      onClick={() => router.push('/orderHistory')}
+                      onClick={() => router.push('/order-history')}
                     >
                       訂單查詢
                     </Button>

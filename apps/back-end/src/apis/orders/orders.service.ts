@@ -59,6 +59,7 @@ export class OrdersService {
       .leftJoin('room.hotel', 'hotel')
       .addSelect(['hotel.name'])
       .where('order.userId = :user', { user: user.id })
+      .orderBy('startDate')
       .getMany()
     return orders
   }
