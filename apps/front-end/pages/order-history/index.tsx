@@ -19,7 +19,7 @@ const _OrderHistory: NextPage<Props> = ({ model }) => {
       {model?.length > 0 ? (
         <ul>
           {model.map((item) => (
-            <Link href={`/orderHistory/${item.id}`} key={item.id}>
+            <Link href={`/order-history/${item.id}`} key={item.id}>
               <li className="rounded-lg border border-slate-400 p-4 mb-4 bg-white">
                 <div className="flex justify-between">
                   <H3>{item.room.hotel.name}</H3>
