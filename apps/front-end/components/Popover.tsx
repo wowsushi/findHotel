@@ -1,4 +1,5 @@
 import { useControlled } from '@/hooks'
+import { useRouter } from 'next/router'
 import { FC, ReactNode, useEffect, useState } from 'react'
 import { Portal } from './Portal'
 
@@ -17,6 +18,8 @@ export const Popover: FC<Props> = ({
   children,
   onClose,
 }) => {
+  const router = useRouter()
+
   const [position, setPosition] = useState<DOMRect>()
   const [isOpen] = useControlled<boolean>({
     controlled: _isOpen,
@@ -30,7 +33,7 @@ export const Popover: FC<Props> = ({
     if (anchorEl) {
       const elPosition = anchorEl.getBoundingClientRect()
       setPosition(elPosition)
-      setTimeout(() => window.addEventListener('click', handleclosePopover), 0)
+      setTimeout(() => window.addEventListener('click', handleclosePopover))
     }
 
     return () => {
@@ -38,14 +41,18 @@ export const Popover: FC<Props> = ({
     }
   }, [anchorEl])
 
+  useEffect(() => {
+    router.events.on('routeChangeComplete', onClose)
+
+    return () => router.events.off('routeChangeComplete', onClose)
+  })
+
   const getPositionLeft = () => {
     return window.innerWidth - position.right
   }
 
   if (typeof window === 'undefined') return null
   if (!isOpen || !anchorEl || !position) {
-    const node = document.getElementById(id)
-    node && document.body.removeChild(node as Node)
     return
   }
 

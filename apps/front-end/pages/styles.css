@@ -64,3 +64,11 @@ ul, li {
 select {
   background-color: white;
 }
+
+.disabled-scroll {
+  overflow: hidden;
+  height: 100vh;
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+  overscroll-behavior: none;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Input, DateRangePicker } from '@/components'
+import { Button, Input, DateRangePicker, Modal } from '@/components'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
@@ -25,7 +25,7 @@ const Index = () => {
     sessionStorage.setItem(HOTEL_QUERY, JSON.stringify(data))
     router.push('/search')
   })
-
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <div className="before:bg-cover before:bg-center h-full py-8 lg:py-32 before:fixed before:inset-0 bg-no-repeat before:blur-[2px] before:brightness-75 before:bg-[url('/bg.jpg')]">
       <div className="container mx-auto max-w-lg px-4 relative module-inside">

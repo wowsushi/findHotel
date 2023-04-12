@@ -8,6 +8,7 @@ import { useFetch } from '@/hooks'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
 import { useContext } from 'react'
+import Link from 'next/link'
 
 type FormValues = {
   email: string
@@ -39,7 +40,7 @@ const Login = () => {
       },
       method: 'post',
       onSuccess: (currentUser) => {
-        Modal.alert('登入成功', () => {
+        const nextStep = () => {
           setGlobalState({ currentUser })
           const returnUrl = router.query.returnUrl as string
           if (returnUrl) {
@@ -47,7 +48,8 @@ const Login = () => {
             return
           }
           router.push('/')
-        })
+        }
+        Modal.alert('登入成功', nextStep, nextStep)
       },
     })
   })
@@ -108,12 +110,12 @@ const Login = () => {
 
               <div className="text-sm">
                 <span className="text-black">還沒有帳號？</span>
-                <a
+                <Link
                   href="/signup"
                   className="font-medium text-sky-600 hover:text-sky-500"
                 >
                   註冊
-                </a>
+                </Link>
               </div>
             </div>
             <div>

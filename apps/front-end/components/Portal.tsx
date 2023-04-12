@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { FC, ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
+type Props = {
+  children: ReactNode
+  target: string
+  lockScreen?: boolean
+}
 export const getContainer = (target) => {
   const existingTarget = document.getElementById(target)
   if (!existingTarget) {
@@ -10,21 +15,21 @@ export const getContainer = (target) => {
   }
 }
 
-export const Portal = ({ children, target }) => {
-  const isSetRef = useRef(null)
-  const [mounted, setMounted] = useState(false)
+export const Portal: FC<Props> = ({ children, target, lockScreen = true }) => {
   useEffect(() => {
-    setMounted(true)
+    if (typeof window === 'undefined') return
 
-    return () => setMounted(false)
+    const body = document.querySelector('body')
+    body.classList.add('disabled-scroll')
+    return () => {
+      body.classList.remove('disabled-scroll')
+      const node = document.getElementById(target)
+      node && document.body.removeChild(node as Node)
+    }
   }, [])
-  if (isSetRef.current) return
 
-  if (mounted) {
-    getContainer(target)
-    isSetRef.current = true
-  }
-  return mounted
-    ? createPortal(children, document.getElementById(target))
-    : null
+  if (typeof window === 'undefined') return null
+  getContainer(target)
+
+  return createPortal(children, document.getElementById(target))
 }
