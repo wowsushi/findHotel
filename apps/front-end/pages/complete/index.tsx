@@ -22,7 +22,7 @@ const Complete = () => {
       <div>
         <Text1>
           預定成功，您的訂單編號 {router.query.orderId} 可以在
-          <Link href="/orderHistory" className="text-blue-500 underline ">
+          <Link href="/order-history" className="text-blue-500 underline ">
             我的訂單
           </Link>
           中，查看您的訂房資訊，謝謝。
