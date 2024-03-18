@@ -16,7 +16,7 @@ A full-stack booking hotel system.
 - User can check booked room.
 ## Demo
 
-[Here](http://www.find-hotel.online/)
+[Here](http://www.findhotel.site/)
 
 ## Author
 

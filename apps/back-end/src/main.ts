@@ -5,7 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: {
-      origin: /^http:\/\/(localhost:)|(find-hotel\.site)/,
+      origin: /^http:\/\/(localhost:)|(findhotel\.site)/,
       credentials: true,
     },
   })
