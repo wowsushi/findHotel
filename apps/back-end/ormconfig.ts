@@ -14,8 +14,7 @@ const dbConfig = {
   charset: 'utf8mb4',
   collation: 'utf8mb4_general_ci',
 }
-console.log(process.env.DB_NAME, process.env.DB_PASSWORD, process.env.NODE_ENV)
-
+console.log(process.env.DB_NAME)
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
