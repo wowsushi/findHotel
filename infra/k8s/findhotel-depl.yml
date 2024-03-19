@@ -17,7 +17,7 @@ spec:
           image: betty713/findhotel
           env:
             - name: NX_BASE_URL_SERVER
-              value: 'http://localhost:3333/api'
+              value: 'http://findhotel-srv:3333/api'
             - name: NX_BASE_URL_CLIENT
               value: ''
             - name: COOKIE_KEY

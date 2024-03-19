@@ -14,7 +14,7 @@ const dbConfig = {
   charset: 'utf8mb4',
   collation: 'utf8mb4_general_ci',
 }
-console.log(process.env.DB_NAME)
+console.log(process.env.DB_NAME, process.env.DB_PASSWORD)
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
@@ -39,12 +39,12 @@ switch (process.env.NODE_ENV) {
     break
   case 'production':
     Object.assign(dbConfig, {
-      type: 'mysql',
-      host: 'find-hotel-db-do-user-16085651-0.c.db.ondigitalocean.com',
-      port: '25060',
-      username: 'doadmin',
-      password: 'AVNS_q9aTVXJDoz0aQO5cYVh',
-      database: 'dev_db',
+      type: process.env.DB_NAME,
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: process.env.DB_USER_NAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE_NAME,
       entities: [User, Report, Room, Hotel, Order],
       // entities: [join(__dirname, './**/*.entity{.ts,.js}')]
     })
