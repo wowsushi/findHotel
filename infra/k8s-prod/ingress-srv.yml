@@ -29,9 +29,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: findhotel-loadbalancer
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "1fc23636-b152-4abd-82b1-60c89d211b86"
+    kubernetes.digitalocean.com/load-balancer-id: "findhotel-loadbalancer-id"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "3"
 spec:
   type: LoadBalancer
