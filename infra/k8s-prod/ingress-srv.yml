@@ -31,7 +31,7 @@ kind: Service
 metadata:
   name: nginx
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "aca43eebc892a4a0e93b99e422f2e080CREA"
+    kubernetes.digitalocean.com/load-balancer-id: "1fc23636-b152-4abd-82b1-60c89d211b86"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "3"
 spec:
   type: LoadBalancer
