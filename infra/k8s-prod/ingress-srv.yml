@@ -29,32 +29,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: nginx
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: "findhotel-load-balancer"
-    service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
-    service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.findhotel.site'
-  labels:
-    helm.sh/chart: ingress-nginx-2.0.3
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.32.0
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: controller
-  name: ingress-nginx-controller
-  namespace: ingress-nginx
+    kubernetes.digitalocean.com/load-balancer-id: "aca43eebc892a4a0e93b99e422f2e080CREA"
+    service.beta.kubernetes.io/do-loadbalancer-size-unit: "3"
+    service.beta.kubernetes.io/do-loadbalancer-deny-rules: "cidr:198.51.100.0/16"
+    service.beta.kubernetes.io/do-loadbalancer-allow-rules: "ip:203.0.113.24,ip:203.0.113.68"
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  selector:
+    app: nginx-example
   ports:
     - name: http
+      protocol: TCP
       port: 80
-      protocol: TCP
       targetPort: 80
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
-  selector:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/component: controller
