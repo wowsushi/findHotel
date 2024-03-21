@@ -33,8 +33,6 @@ metadata:
   annotations:
     kubernetes.digitalocean.com/load-balancer-id: "aca43eebc892a4a0e93b99e422f2e080CREA"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "3"
-    service.beta.kubernetes.io/do-loadbalancer-deny-rules: "cidr:198.51.100.0/16"
-    service.beta.kubernetes.io/do-loadbalancer-allow-rules: "ip:203.0.113.24,ip:203.0.113.68"
 spec:
   type: LoadBalancer
   selector:
