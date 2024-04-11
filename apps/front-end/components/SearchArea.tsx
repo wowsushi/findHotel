@@ -25,7 +25,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
     room: yup.number(),
   })
 
-  const { register, handleSubmit, setValue, getValues } = useForm<HotelQuery>({
+  const { register, handleSubmit, setValue } = useForm<HotelQuery>({
     resolver: yupResolver(schema),
     defaultValues: searchQuery,
   })
@@ -38,7 +38,7 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
         setValue(key as keyof HotelQuery, value)
       }
     })
-  }, [searchQuery])
+  }, [searchQuery, setValue])
 
   const handleToggleSearchArea = () => {
     setIsShowSearchArea(!isShowSearchArea)
@@ -91,10 +91,8 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
         <fieldset className="mb-2">
           <DateRangePicker
             label="住房日期"
-            startDate={
-              getValues('startDate') && new Date(getValues('startDate'))
-            }
-            endDate={getValues('endDate') && new Date(getValues('endDate'))}
+            startDate={searchQuery.startDate && new Date(searchQuery.startDate)}
+            endDate={searchQuery.endDate && new Date(searchQuery.endDate)}
             onChange={(update) => {
               setValue('startDate', update[0])
               setValue('endDate', update[1])
