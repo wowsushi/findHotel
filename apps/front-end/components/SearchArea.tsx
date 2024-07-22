@@ -60,6 +60,8 @@ export const SearchArea: FC<Props> = ({ searchQuery, onSearch }) => {
     !!onSearch && onSearch(data)
   })
 
+  if (!searchQuery) return null
+
   return (
     <section className="w-full lg:max-w-xs py-0 lg:py-4 mr-4 px-0 lg:px-2 fixed lg:sticky top-[44px] lg:top-[88px] z-10">
       <div className="lg:hidden flex justify-between items-center p-2 bg-sky-200">
