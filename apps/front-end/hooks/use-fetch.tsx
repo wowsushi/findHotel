@@ -46,7 +46,7 @@ export const useFetch: Props = () => {
       } catch (err) {
         // server side throw error
         if (err.response.data.message) {
-          Modal.alert(err.response.data)
+          Modal.alert(err.response.data.message)
           setErrors(err.response.data)
           return err.response.data
         }
